@@ -1,0 +1,867 @@
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import gsap from 'gsap'
+import { DoubleSide, Group } from 'three'
+
+// Webgl element
+const canvas = document.querySelector('canvas')
+
+// Represent each part of the website (header, main, and footer)
+let part
+
+if(window.innerWidth >= 1024)
+{
+    part = document.documentElement.scrollLeft / window.innerWidth
+}
+else
+{
+    part = document.documentElement.scrollTop / window.innerHeight
+}
+
+// Represent each section of the website
+let section
+
+// Contain three sections
+const sectionContainer = document.querySelector('#section-container')
+
+// Buttons to navigate the website along with the x axis
+const button_1_2 = document.getElementById('1-2-button')
+const button_2_1 = document.getElementById('2-1-button')
+const button_2_3 = document.getElementById('2-3-button')
+const button_3_2 = document.getElementById('3-2-button')
+
+const xButtonArray = [button_1_2, button_2_1, button_2_3, button_3_2]
+
+// Buttons to navigate the website along with the y axis
+const upButton = document.querySelector('#up-button')
+const downButton = document.querySelector('#down-button')
+
+const yButtonArray = [upButton, downButton]
+
+// First and last element of the website
+const header = document.querySelector('header')
+const footer = document.querySelector('footer')
+
+// Determines if cube rotates
+let rotationState = true
+
+const scene = new THREE.Scene()
+
+const textureLoader = new THREE.TextureLoader()
+
+const textureArrayOne = [
+    // Up face
+    textureLoader.load('/assets/img/webdev/svelte.png'),
+    // Down face
+    textureLoader.load('/assets/img/webdev/css.png'),
+    // Front face
+    textureLoader.load('/assets/img/webdev/html.png'),
+    // Back face
+    textureLoader.load('/assets/img/webdev/javascript.png'),
+    // Left face
+    textureLoader.load('/assets/img/webdev/three-js.png'),
+    // Right face
+    textureLoader.load('/assets/img/webdev/tailwind-css.png')
+]
+
+const textureArrayTwo = [
+    // Up face
+    textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
+    // Down face
+    textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
+    // Front face
+    textureLoader.load('/assets/img/gaming/forever-classic-games.png'),
+    // Back face
+    textureLoader.load('/assets/img/gaming/forever-classic-games.png'),
+    // Left face
+    textureLoader.load('/assets/img/gaming/mega-cat.png'),
+    // Right face
+    textureLoader.load('/assets/img/gaming/mega-cat.png')
+]
+
+const textureArrayThree = [
+    // Up face
+    textureLoader.load('/assets/img/translation/metal-gear.png'),
+    // Down face
+    textureLoader.load('/assets/img/translation/metal-gear.png'),
+    // Front face
+    textureLoader.load('/assets/img/translation/resident-evil.png'),
+    // Back face
+    textureLoader.load('/assets/img/translation/resident-evil.png'),
+    // Left face
+    textureLoader.load('/assets/img/translation/ninja-gaiden.png'),
+    // Right face
+    textureLoader.load('/assets/img/translation/ninja-gaiden.png')
+]
+
+const textureArray = [textureArrayOne, textureArrayTwo, textureArrayThree]
+
+/* Shre on Gist */
+
+const createCubeFromPlanes = (boxSegment, planeSize) =>
+{
+    const cube = new THREE.Group()
+
+    const boxSize = boxSegment * planeSize
+
+    // Contain position of each plane
+    const planePositionArray = []
+
+    // Check if boxSegment is odd/even
+    // Fill planePositionArray (containing position of each plane)
+    if(boxSegment % 2 == 1)
+    {
+        let value = 0
+    
+        planePositionArray.push(value)
+    
+        for(let i = 0; i < Math.floor(boxSegment / 2); i++)
+        {
+            value += planeSize
+            planePositionArray.reverse()
+            planePositionArray.push(value)
+            planePositionArray.reverse()
+            planePositionArray.push(- value)
+        }
+        planePositionArray.reverse()
+    }
+    else
+    {
+        let value = planeSize / 2
+    
+        planePositionArray.push(value)
+        planePositionArray.push(- value)
+    
+        for(let i = 0; i < (boxSegment / 2) - 1; i++)
+        {
+            value += planeSize
+            planePositionArray.reverse()
+            planePositionArray.push(value)
+            planePositionArray.reverse()
+            planePositionArray.push(- value)
+        }
+        planePositionArray.reverse()
+    }
+
+    // Create 6 faces from planes
+    for(let i = 0; i < 6; i++)
+    {
+        const planeGroup = new THREE.Group()
+        
+        for(let j = 0; j < boxSegment; j++)
+        {
+            for(let k = 0; k < boxSegment; k++)
+            {
+                // Create plane
+                const planeGeometry = new THREE.PlaneGeometry(planeSize, planeSize)
+                const planeMaterial = new THREE.MeshBasicMaterial({
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 1
+                })
+                const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+
+                plane.position.x = planePositionArray[j]
+                plane.position.y = planePositionArray[k]
+
+                planeGroup.add(plane)
+            }
+        }
+
+        planeGroup.userData.id = i
+
+        switch(i)
+        {
+            // Up face
+            case 0:
+                planeGroup.position.y = boxSize / 2
+                planeGroup.rotation.x = - Math.PI / 2
+                break
+            // Down face
+            case 1:
+                planeGroup.position.y = - boxSize / 2
+                planeGroup.rotation.x = Math.PI / 2
+                break
+            // Front face
+            case 2:
+                planeGroup.position.z = boxSize / 2
+                break
+            // Back face
+            case 3:
+                planeGroup.position.z = - boxSize / 2
+                planeGroup.rotation.y = Math.PI
+                break
+            // Left face
+            case 4:
+                planeGroup.position.x = - boxSize / 2
+                planeGroup.rotation.y = - Math.PI / 2
+                break
+            // Right face
+            case 5:
+                planeGroup.position.x = boxSize / 2
+                planeGroup.rotation.y = Math.PI / 2
+                break
+        }
+        
+        cube.add(planeGroup)
+    }
+
+    return cube
+}
+
+const addTextureToCube = (textureArray, cube) =>
+{
+    // Loop through each face
+    for(let i = 0; i < 6; i++)
+    {
+        const planeGroup = cube.children[i]
+        const boxSegment = Math.sqrt(planeGroup.children.length)
+
+        // Contain offset of each plane's texture
+        const textureOffsetArray = []
+
+        let textureOffsetX = - 1 / boxSegment
+        
+        // Fill textureOffsetArray (containing offset of each plane's texture)
+        for(let j = 0; j < boxSegment; j++)
+        {
+            textureOffsetX += 1 / boxSegment
+    
+            let textureOffsetY = - 1 / boxSegment
+    
+            for(let k = 0; k < boxSegment; k++)
+            {
+                textureOffsetY += 1 / boxSegment
+    
+                textureOffsetArray.push([textureOffsetX, textureOffsetY])
+            }
+        }
+
+        if(i == planeGroup.userData.id)
+        {
+            // Loop through each plane of the face
+            for(let j = 0; j < planeGroup.children.length; j++)
+            {
+                const plane = planeGroup.children[j]
+
+                plane.material.map = textureArray[i].clone()
+                plane.material.map.needsUpdate = true
+
+                plane.material.map.offset.x = textureOffsetArray[j][0]
+                plane.material.map.offset.y = textureOffsetArray[j][1]
+
+                plane.material.map.repeat.x = 1 / boxSegment
+                plane.material.map.repeat.y = 1 / boxSegment
+            }
+        }
+    }
+}
+
+/* Shre on Gist */
+
+const getPlanePositionOfCube = (cube) =>
+{
+    const planePositionArray = []
+
+    for(let i = 0; i < cube.children.length; i++)
+    {
+        const planeGroup = cube.children[i]
+        for(let j = 0; j < planeGroup.children.length; j++)
+        {
+            const plane = planeGroup.children[j]
+            planePositionArray.push({ x: plane.position.x, y: plane.position.y, z: plane.position.z })
+        }
+    }
+
+    return planePositionArray
+}
+
+const deformCube = (cube, duration) =>
+{
+    for(let i = 0; i < cube.children.length; i++)
+    {
+        const planeGroup = cube.children[i]
+        for(let j = 0; j < planeGroup.children.length; j++)
+        {
+            const plane = planeGroup.children[j]
+            
+            const xPlanePosition = Math.random() * 50
+            const yPlanePosition = Math.random() * 50
+            const zPlanePosition = Math.random() * 50
+
+            gsap.to(plane.position, { duration, ease: 'power4.in', x: xPlanePosition, y: yPlanePosition, z: zPlanePosition })
+            
+            const xPlaneRotation = Math.random() * 5
+            const yPlaneRotation = Math.random() * 5
+            const zPlaneRotation = Math.random() * 5
+
+            gsap.to(plane.rotation, { duration, ease: 'power4.in', x: xPlaneRotation, y: yPlaneRotation, z: zPlaneRotation })
+
+            gsap.to(plane.material, { duration, ease: 'power4.in', opacity: 0 })
+        }
+    }
+}
+
+const reformCube = (cube, duration, planePositionArray) =>
+{
+    for(let i = 0; i < cube.children.length; i++)
+    {
+        const planeGroup = cube.children[i]
+        for(let j = 0; j < planeGroup.children.length; j++)
+        {
+            const plane = planeGroup.children[j]
+
+            gsap.to(plane.position, { duration, ease: 'power4.out', x: planePositionArray[j].x, y: planePositionArray[j].y, z: planePositionArray[j].z })
+            
+            gsap.to(plane.rotation, { duration, ease: 'power4.out', x: 0, y: 0, z: 0 })
+
+            gsap.to(plane.material, { duration, ease: 'power4.out', opacity: 1 })
+        }
+    }
+}
+
+const transformCube = (cube , duration, section) =>
+{
+    deformCube(cube, duration)
+
+    rotationState = false
+
+    setTimeout(() =>
+    {
+        addTextureToCube(textureArray[section], cube)
+
+        reformCube(cube, duration, planePositionArray)
+
+        rotationState = true
+    }, duration * 1000)
+}
+
+const transformCanvas = (section) =>
+{
+    if(section == 1)
+    {
+        canvas.classList.remove('md:-translate-x-1/3')
+        canvas.classList.add('md:translate-x-0')
+    }
+    else
+    {
+        canvas.classList.remove('md:translate-x-0')
+        canvas.classList.add('md:-translate-x-1/3')
+    }
+}
+
+const fadeOutAll = () =>
+{
+    for(let i = 0; i < sectionContainer.childElementCount; i++)
+    {
+        sectionContainer.children[i].classList.remove('opacity-100')
+        sectionContainer.children[i].classList.add('opacity-0')
+    }
+}
+
+const fadeIn = (section) =>
+{
+    sectionContainer.children[section].classList.remove('opacity-0')
+    sectionContainer.children[section].classList.add('opacity-100')
+}
+
+const showAllYButtons = () =>
+{
+    upButton.classList.remove('-top-16')
+    upButton.classList.add('top-0')
+    downButton.classList.remove('-bottom-16')
+    downButton.classList.add('bottom-0')
+}
+
+const hideUpButton = () =>
+{
+    upButton.classList.remove('top-0')
+    upButton.classList.add('-top-16')
+}
+
+const hideDownButton = () =>
+{
+    downButton.classList.remove('bottom-0')
+    downButton.classList.add('-bottom-16')
+}
+
+const convertHeadingIntoPieces = (heading) =>
+{
+    const headingContent = heading.textContent.trim()
+    
+    let headingAltContent = ``
+
+    for(let j = 0; j < headingContent.length; j++)
+    {
+        headingAltContent += `<span class="inline-flex transition-transform duration-1000 ease-in-out">${headingContent[j]}</span>`
+    }
+
+    heading.innerHTML = headingAltContent
+}
+
+const animateHeading = (section) =>
+{
+    // Remove styles
+    const headingArray = document.querySelectorAll('h3')
+
+    for(let i = 0; i < headingArray.length; i++)
+    {
+        const heading = headingArray[i]
+
+        for(let j = 0; j < heading.childElementCount; j++)
+        {
+            const span = heading.children[j]
+            span.style.transform = 'rotateX(180deg)'
+        }
+    }
+
+    // Add styles
+    const heading = document.querySelector(`section:nth-child(${section + 1}) > h3`)
+
+    for(let i = 0; i < heading.childElementCount; i++)
+    {
+        const span = heading.children[i]
+        
+        setTimeout(() =>
+        {
+            span.style.transform = 'rotateX(360deg)'
+        }, i * 50)
+    }
+}
+
+const updateScreenSizedElementsHeight = () =>
+{
+    const hScreenArray = document.querySelectorAll('.h-screen')
+
+    for(let i = 0; i < hScreenArray.length; i++)
+    {
+        const hScreen = hScreenArray[i]
+    
+        hScreen.style.height = `${window.innerHeight}px`
+    }
+}
+
+// Update screen sized elements' height
+updateScreenSizedElementsHeight()
+
+// Convert headings' content into groups of spans
+const headingArray = document.querySelectorAll('h3')
+
+for(let i = 0; i < headingArray.length; i++)
+{
+    const heading = headingArray[i]
+
+    convertHeadingIntoPieces(heading)
+}
+
+// Optimize x-buttons
+for(let i = 0; i < xButtonArray.length; i++)
+{
+    xButtonArray[i].addEventListener('click', () =>
+    {
+        // Scroll right
+        if(i == 0)
+        {
+            part += 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+        // Scroll left
+        else if(i == 1)
+        {
+            part -= 1
+            header.scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll right
+        else if(i == 2)
+        {
+            part += 1
+            footer.scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll left
+        else if(i == 3)
+        {
+            part -= 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+    })
+}
+
+// Optimize y-buttons
+showAllYButtons()
+
+if(part == 0)
+{
+    hideUpButton()
+}
+else if(part == 2)
+{
+    hideDownButton()
+}
+
+for(let i = 0; i < yButtonArray.length; i++)
+{
+    yButtonArray[i].addEventListener('click', () =>
+    {
+        showAllYButtons()
+        
+        // Click up button
+        if(i == 0)
+        {
+            // Scroll up
+            if(part == 2)
+            {
+                part -= 1
+                sectionContainer.scrollIntoView({ behavior: 'smooth' })
+                animateHeading(section)
+            }
+            // Scroll up
+            else if(part == 1 && section != 0)
+            {
+                section -= 1
+                transformCube(cube, .5, section)
+                fadeOutAll()
+                fadeIn(section)
+                animateHeading(section)
+                sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            }
+            // Scroll up
+            else if(part == 1 && section == 0)
+            {
+                part -= 1
+                header.scrollIntoView({ behavior: 'smooth' })
+                hideUpButton()
+            }
+        }
+        // Click down button
+        else if(i == 1)
+        {
+            // Scroll down
+            if(part == 0)
+            {
+                part += 1
+                sectionContainer.scrollIntoView({ behavior: 'smooth' })
+                animateHeading(section)
+            }
+            // Scroll down
+            else if(part == 1 && section != 2)
+            {
+                section += 1
+                transformCube(cube, .5, section)
+                fadeOutAll()
+                fadeIn(section)
+                animateHeading(section)
+                sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            }
+            // Scroll down
+            else if(part == 1 && section == 2)
+            {
+                part += 1
+                footer.scrollIntoView({ behavior: 'smooth' })
+                hideDownButton()
+            }
+        }
+        // Everytime
+        transformCanvas(section)
+    })
+}
+
+// Randomize binary code
+const codeBlock = document.querySelector('#code-block')
+
+const maxBlockLength = 7
+
+for(let i = 0 ; i < maxBlockLength; i++)
+{
+    let codeSubBlock = `<div>`
+
+    for(let j = 0 ; j < Math.ceil((Math.random() + .25) * maxBlockLength); j++)
+    {
+        if(Math.random() < .5)
+        {
+            codeSubBlock += `<span class="code">0</span>`
+        }
+        else
+        {
+            codeSubBlock += `<span class="code font-bold">1</span>`
+        }
+    }
+
+    codeSubBlock += `</div>`
+
+    codeBlock.innerHTML += codeSubBlock
+}
+
+const codeArray = document.querySelectorAll('.code')
+
+for(let i = 0; i < codeArray.length; i++)
+{
+    const code = codeArray[i]
+
+    const duration = (Math.random() + .5) * 2000
+
+    setInterval(() =>
+    {
+        if(code.textContent == '1')
+        {
+            code.textContent = '0'
+        }
+        else
+        {
+            code.textContent = '1'
+        }
+    }, duration)
+}
+
+/* Docs */
+
+// createCubeFromPlanes(boxSegment, planeSize)
+// boxSegment can't be float
+const cube = createCubeFromPlanes(4, .45)
+
+scene.add(cube)
+
+// addTextureToCube(textureArray, cube)
+// addTextureToCube(textureArrayOne, cube)
+
+/* Docs */
+
+const planePositionArray = getPlanePositionOfCube(cube)
+
+// Scroll effects
+section = sectionContainer.scrollTop / window.innerHeight
+addTextureToCube(textureArray[section], cube)
+fadeOutAll()
+fadeIn(section)
+animateHeading(section)
+transformCanvas(section)
+
+window.addEventListener('wheel', (e) =>
+{
+    const scrollY = e.deltaY
+
+    showAllYButtons()
+    
+    // Move down
+    if(scrollY > 0)
+    {
+        // Scroll right
+        if(part == 0)
+        {
+            part += 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+        // Scroll down
+        else if(part == 1 && section != 2)
+        {
+            section += 1
+            transformCube(cube, .5, section)
+            fadeOutAll()
+            fadeIn(section)
+            animateHeading(section)
+            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll right
+        else if(part == 1 && section == 2)
+        {
+            part += 1
+            footer.scrollIntoView({ behavior: 'smooth' })
+            hideDownButton()
+        }
+        else if(part == 2)
+        {
+            hideDownButton()
+        }
+    }
+    // Move up
+    else if(scrollY < 0)
+    {
+        // Scroll left
+        if(part == 2)
+        {
+            part -= 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+        // Scroll up
+        else if(part == 1 && section != 0)
+        {
+            section -= 1
+            transformCube(cube, .5, section)
+            fadeOutAll()
+            fadeIn(section)
+            animateHeading(section)
+            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll left
+        else if(part == 1 && section == 0)
+        {
+            part -= 1
+            header.scrollIntoView({ behavior: 'smooth' })
+            hideUpButton()
+        }
+        else if(part == 0)
+        {
+            hideUpButton()
+        }
+    }
+
+    // Everytime
+    transformCanvas(section)
+})
+
+window.addEventListener('keyup', (e) =>
+{
+    const key = e.key
+
+    // Press down
+    if(key == 'ArrowDown' || key == 'PageDown')
+    {
+        showAllYButtons()
+
+        // Scroll right
+        if(part == 0)
+        {
+            part += 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+        // Scroll down
+        else if(part == 1 && section != 2)
+        {
+            section += 1
+            transformCube(cube, .5, section)
+            fadeOutAll()
+            fadeIn(section)
+            animateHeading(section)
+            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll right
+        else if(part == 1 && section == 2)
+        {
+            part += 1
+            footer.scrollIntoView({ behavior: 'smooth' })
+            hideDownButton()
+        }
+        else if(part == 2)
+        {
+            hideDownButton()
+        }
+    }
+    // Press up
+    else if(key == 'ArrowUp' || key == 'PageUp')
+    {
+        showAllYButtons()
+        
+        // Scroll left
+        if(part == 2)
+        {
+            part -= 1
+            sectionContainer.scrollIntoView({ behavior: 'smooth' })
+            animateHeading(section)
+        }
+        // Scroll up
+        else if(part == 1 && section != 0)
+        {
+            section -= 1
+            transformCube(cube, .5, section)
+            fadeOutAll()
+            fadeIn(section)
+            animateHeading(section)
+            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+        }
+        // Scroll left
+        else if(part == 1 && section == 0)
+        {
+            part -= 1
+            header.scrollIntoView({ behavior: 'smooth' })
+            hideUpButton()
+        }
+        else if(part == 0)
+        {
+            hideUpButton()
+        }
+    }
+
+    // Everytime
+    transformCanvas(section)
+})
+
+window.addEventListener('resize', () =>
+{
+    // Update sizes
+    sizes.width = window.innerWidth * 1.5
+    sizes.height = window.innerHeight
+
+    // Update screen sized elements' height
+    updateScreenSizedElementsHeight()
+
+    // Update html
+    sectionContainer.scrollTop = section * window.innerHeight
+
+    if(window.innerWidth >= 1024)
+    {
+        document.documentElement.scrollLeft = part * window.innerWidth
+    }
+    else
+    {
+        document.documentElement.scrollTop = part * window.innerHeight
+    }
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+const sizes = {
+    width: window.innerWidth * 1.5,
+    height: window.innerHeight
+}
+
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.z = 4
+scene.add(camera)
+
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas
+})
+renderer.setSize(sizes.width, sizes.height)
+renderer.setClearColor(0x0f0f0f)
+
+const clock = new THREE.Clock()
+
+const tick = () =>
+{
+    const elapsedTime = clock.getElapsedTime()
+
+    if(rotationState)
+    {
+        const xCubeRotation = elapsedTime * .125
+        const yCubeRotation = elapsedTime * .25
+        const zCubeRotation = elapsedTime
+
+        cube.rotation.x = xCubeRotation
+        cube.rotation.y = yCubeRotation
+        cube.rotation.z = zCubeRotation
+    }
+
+    // Update controls
+    controls.update()
+
+    // Render
+    renderer.render(scene, camera)
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick)
+}
+
+tick()
