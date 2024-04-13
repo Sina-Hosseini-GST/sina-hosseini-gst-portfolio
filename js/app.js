@@ -9,7 +9,7 @@ const canvas = document.querySelector('canvas')
 // Represent each part of the website (header, main, and footer)
 let part
 
-if(window.innerWidth >= 1024)
+if (window.innerWidth >= 1024)
 {
     part = document.documentElement.scrollLeft / window.innerWidth
 }
@@ -50,9 +50,9 @@ const scene = new THREE.Scene()
 const textureLoader = new THREE.TextureLoader()
 
 const textureArrayOne = [
-    // Up face
+    // Top face
     textureLoader.load('/assets/img/webdev/svelte.png'),
-    // Down face
+    // Bottom face
     textureLoader.load('/assets/img/webdev/css.png'),
     // Front face
     textureLoader.load('/assets/img/webdev/html.png'),
@@ -65,9 +65,9 @@ const textureArrayOne = [
 ]
 
 const textureArrayTwo = [
-    // Up face
+    // Top face
     textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
-    // Down face
+    // Bottom face
     textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
     // Front face
     textureLoader.load('/assets/img/gaming/forever-classic-games.png'),
@@ -80,9 +80,9 @@ const textureArrayTwo = [
 ]
 
 const textureArrayThree = [
-    // Up face
+    // Top face
     textureLoader.load('/assets/img/translation/metal-gear.png'),
-    // Down face
+    // Bottom face
     textureLoader.load('/assets/img/translation/metal-gear.png'),
     // Front face
     textureLoader.load('/assets/img/translation/resident-evil.png'),
@@ -97,6 +97,7 @@ const textureArrayThree = [
 const textureArray = [textureArrayOne, textureArrayTwo, textureArrayThree]
 
 /* Shre on Gist */
+/* https://gist.github.com/Sina-Hosseini-GST/1563e409bf4039f918238fbf05250edc */
 
 const createCubeFromPlanes = (boxSegment, planeSize) =>
 {
@@ -109,7 +110,7 @@ const createCubeFromPlanes = (boxSegment, planeSize) =>
 
     // Check if boxSegment is odd/even
     // Fill planePositionArray (containing position of each plane)
-    if(boxSegment % 2 == 1)
+    if (boxSegment % 2 == 1)
     {
         let value = 0
     
@@ -172,12 +173,12 @@ const createCubeFromPlanes = (boxSegment, planeSize) =>
 
         switch(i)
         {
-            // Up face
+            // Top face
             case 0:
                 planeGroup.position.y = boxSize / 2
                 planeGroup.rotation.x = - Math.PI / 2
                 break
-            // Down face
+            // Bottom face
             case 1:
                 planeGroup.position.y = - boxSize / 2
                 planeGroup.rotation.x = Math.PI / 2
@@ -237,7 +238,7 @@ const addTextureToCube = (textureArray, cube) =>
             }
         }
 
-        if(i == planeGroup.userData.id)
+        if (i == planeGroup.userData.id)
         {
             // Loop through each plane of the face
             for(let j = 0; j < planeGroup.children.length; j++)
@@ -257,6 +258,7 @@ const addTextureToCube = (textureArray, cube) =>
     }
 }
 
+/* https://gist.github.com/Sina-Hosseini-GST/1563e409bf4039f918238fbf05250edc */
 /* Shre on Gist */
 
 const getPlanePositionOfCube = (cube) =>
@@ -338,7 +340,7 @@ const transformCube = (cube , duration, section) =>
 
 const transformCanvas = (section) =>
 {
-    if(section == 1)
+    if (section == 1)
     {
         canvas.classList.remove('md:-translate-x-1/3')
         canvas.classList.add('md:translate-x-0')
@@ -460,26 +462,26 @@ for(let i = 0; i < xButtonArray.length; i++)
     xButtonArray[i].addEventListener('click', () =>
     {
         // Scroll right
-        if(i == 0)
+        if (i == 0)
         {
             part += 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll left
-        else if(i == 1)
+        else if (i == 1)
         {
             part -= 1
             header.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
-        else if(i == 2)
+        else if (i == 2)
         {
             part += 1
             footer.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
-        else if(i == 3)
+        else if (i == 3)
         {
             part -= 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
@@ -491,11 +493,11 @@ for(let i = 0; i < xButtonArray.length; i++)
 // Optimize y-buttons
 showAllYButtons()
 
-if(part == 0)
+if (part == 0)
 {
     hideUpButton()
 }
-else if(part == 2)
+else if (part == 2)
 {
     hideDownButton()
 }
@@ -507,17 +509,17 @@ for(let i = 0; i < yButtonArray.length; i++)
         showAllYButtons()
         
         // Click up button
-        if(i == 0)
+        if (i == 0)
         {
             // Scroll up
-            if(part == 2)
+            if (part == 2)
             {
                 part -= 1
                 sectionContainer.scrollIntoView({ behavior: 'smooth' })
                 animateHeading(section)
             }
             // Scroll up
-            else if(part == 1 && section != 0)
+            else if (part == 1 && section != 0)
             {
                 section -= 1
                 transformCube(cube, .5, section)
@@ -527,25 +529,29 @@ for(let i = 0; i < yButtonArray.length; i++)
                 sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
             }
             // Scroll up
-            else if(part == 1 && section == 0)
+            else if (part == 1 && section == 0)
             {
                 part -= 1
                 header.scrollIntoView({ behavior: 'smooth' })
                 hideUpButton()
             }
+            else if (part == 0)
+            {
+                hideUpButton()
+            }
         }
         // Click down button
-        else if(i == 1)
+        else if (i == 1)
         {
             // Scroll down
-            if(part == 0)
+            if (part == 0)
             {
                 part += 1
                 sectionContainer.scrollIntoView({ behavior: 'smooth' })
                 animateHeading(section)
             }
             // Scroll down
-            else if(part == 1 && section != 2)
+            else if (part == 1 && section != 2)
             {
                 section += 1
                 transformCube(cube, .5, section)
@@ -555,13 +561,18 @@ for(let i = 0; i < yButtonArray.length; i++)
                 sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
             }
             // Scroll down
-            else if(part == 1 && section == 2)
+            else if (part == 1 && section == 2)
             {
                 part += 1
                 footer.scrollIntoView({ behavior: 'smooth' })
                 hideDownButton()
             }
+            else if (part == 2)
+            {
+                hideDownButton()
+            }
         }
+
         // Everytime
         transformCanvas(section)
     })
@@ -578,7 +589,7 @@ for(let i = 0 ; i < maxBlockLength; i++)
 
     for(let j = 0 ; j < Math.ceil((Math.random() + .25) * maxBlockLength); j++)
     {
-        if(Math.random() < .5)
+        if (Math.random() < .5)
         {
             codeSubBlock += `<span class="code">0</span>`
         }
@@ -603,7 +614,7 @@ for(let i = 0; i < codeArray.length; i++)
 
     setInterval(() =>
     {
-        if(code.textContent == '1')
+        if (code.textContent == '1')
         {
             code.textContent = '0'
         }
@@ -644,17 +655,17 @@ window.addEventListener('wheel', (e) =>
     showAllYButtons()
     
     // Move down
-    if(scrollY > 0)
+    if (scrollY > 0)
     {
         // Scroll right
-        if(part == 0)
+        if (part == 0)
         {
             part += 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll down
-        else if(part == 1 && section != 2)
+        else if (part == 1 && section != 2)
         {
             section += 1
             transformCube(cube, .5, section)
@@ -664,29 +675,29 @@ window.addEventListener('wheel', (e) =>
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
-        else if(part == 1 && section == 2)
+        else if (part == 1 && section == 2)
         {
             part += 1
             footer.scrollIntoView({ behavior: 'smooth' })
             hideDownButton()
         }
-        else if(part == 2)
+        else if (part == 2)
         {
             hideDownButton()
         }
     }
     // Move up
-    else if(scrollY < 0)
+    else if (scrollY < 0)
     {
         // Scroll left
-        if(part == 2)
+        if (part == 2)
         {
             part -= 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll up
-        else if(part == 1 && section != 0)
+        else if (part == 1 && section != 0)
         {
             section -= 1
             transformCube(cube, .5, section)
@@ -696,13 +707,13 @@ window.addEventListener('wheel', (e) =>
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
-        else if(part == 1 && section == 0)
+        else if (part == 1 && section == 0)
         {
             part -= 1
             header.scrollIntoView({ behavior: 'smooth' })
             hideUpButton()
         }
-        else if(part == 0)
+        else if (part == 0)
         {
             hideUpButton()
         }
@@ -717,19 +728,19 @@ window.addEventListener('keyup', (e) =>
     const key = e.key
 
     // Press down
-    if(key == 'ArrowDown' || key == 'PageDown')
+    if (key == 'ArrowDown' || key == 'PageDown')
     {
         showAllYButtons()
 
         // Scroll right
-        if(part == 0)
+        if (part == 0)
         {
             part += 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll down
-        else if(part == 1 && section != 2)
+        else if (part == 1 && section != 2)
         {
             section += 1
             transformCube(cube, .5, section)
@@ -739,31 +750,31 @@ window.addEventListener('keyup', (e) =>
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
-        else if(part == 1 && section == 2)
+        else if (part == 1 && section == 2)
         {
             part += 1
             footer.scrollIntoView({ behavior: 'smooth' })
             hideDownButton()
         }
-        else if(part == 2)
+        else if (part == 2)
         {
             hideDownButton()
         }
     }
     // Press up
-    else if(key == 'ArrowUp' || key == 'PageUp')
+    else if (key == 'ArrowUp' || key == 'PageUp')
     {
         showAllYButtons()
         
         // Scroll left
-        if(part == 2)
+        if (part == 2)
         {
             part -= 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll up
-        else if(part == 1 && section != 0)
+        else if (part == 1 && section != 0)
         {
             section -= 1
             transformCube(cube, .5, section)
@@ -773,13 +784,13 @@ window.addEventListener('keyup', (e) =>
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
-        else if(part == 1 && section == 0)
+        else if (part == 1 && section == 0)
         {
             part -= 1
             header.scrollIntoView({ behavior: 'smooth' })
             hideUpButton()
         }
-        else if(part == 0)
+        else if (part == 0)
         {
             hideUpButton()
         }
@@ -801,7 +812,7 @@ window.addEventListener('resize', () =>
     // Update html
     sectionContainer.scrollTop = section * window.innerHeight
 
-    if(window.innerWidth >= 1024)
+    if (window.innerWidth >= 1024)
     {
         document.documentElement.scrollLeft = part * window.innerWidth
     }
@@ -843,7 +854,7 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
-    if(rotationState)
+    if (rotationState)
     {
         const xCubeRotation = elapsedTime * .125
         const yCubeRotation = elapsedTime * .25
@@ -865,3 +876,27 @@ const tick = () =>
 }
 
 tick()
+
+let touchstartValue
+let touchendValue
+
+window.addEventListener('touchstart', (e) =>
+{
+    touchstartValue = e.changedTouches[0].clientY
+})
+
+window.addEventListener('touchend', (e) =>
+{
+    touchendValue = e.changedTouches[0].clientY
+    
+    // Touch, into bottom
+    if (touchendValue > touchstartValue)
+    {
+        upButton.click()
+    }
+    // Touch, into top
+    else if (touchstartValue > touchendValue)
+    {
+        downButton.click()
+    }
+})
