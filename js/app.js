@@ -11,11 +11,11 @@ let part
 
 if (window.innerWidth >= 1024)
 {
-    part = document.documentElement.scrollLeft / window.innerWidth
+    part = Math.round(document.documentElement.scrollLeft / window.innerWidth)
 }
 else
 {
-    part = document.documentElement.scrollTop / window.innerHeight
+    part = Math.round(document.documentElement.scrollTop / window.innerHeight)
 }
 
 // Represent each section of the website
@@ -41,6 +41,9 @@ const yButtonArray = [upButton, downButton]
 // First and last element of the website
 const header = document.querySelector('header')
 const footer = document.querySelector('footer')
+
+// main element, containing canvas and the three sections
+const main = document.querySelector('main')
 
 // Determines if cube rotates
 let rotationState = true
@@ -352,19 +355,33 @@ const transformCanvas = (section) =>
     }
 }
 
-const fadeOutAll = () =>
+const fadeOutAllSections = () =>
 {
     for(let i = 0; i < sectionContainer.childElementCount; i++)
     {
-        sectionContainer.children[i].classList.remove('opacity-100')
-        sectionContainer.children[i].classList.add('opacity-0')
+        const section = sectionContainer.children[i]
+        section.classList.remove('opacity-100')
+        section.classList.add('opacity-0')
     }
 }
 
-const fadeIn = (section) =>
+const fadeOut = (element) =>
 {
-    sectionContainer.children[section].classList.remove('opacity-0')
-    sectionContainer.children[section].classList.add('opacity-100')
+    element.classList.remove('opacity-100')
+    element.classList.add('opacity-0')
+}
+
+const fadeIn = (element) =>
+{
+    element.classList.remove('opacity-0')
+    element.classList.add('opacity-100')
+}
+
+const fadeInSection = (index) =>
+{
+    const section = sectionContainer.children[index]
+    section.classList.remove('opacity-0')
+    section.classList.add('opacity-100')
 }
 
 const showAllYButtons = () =>
@@ -504,12 +521,14 @@ else if (part == 2)
 
 for(let i = 0; i < yButtonArray.length; i++)
 {
-    yButtonArray[i].addEventListener('click', () =>
+    const yButton = yButtonArray[i]
+
+    yButton.addEventListener('click', () =>
     {
         showAllYButtons()
-        
+
         // Click up button
-        if (i == 0)
+        if (yButton == upButton)
         {
             // Scroll up
             if (part == 2)
@@ -523,8 +542,8 @@ for(let i = 0; i < yButtonArray.length; i++)
             {
                 section -= 1
                 transformCube(cube, .5, section)
-                fadeOutAll()
-                fadeIn(section)
+                fadeOutAllSections()
+                fadeInSection(section)
                 animateHeading(section)
                 sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
             }
@@ -535,13 +554,9 @@ for(let i = 0; i < yButtonArray.length; i++)
                 header.scrollIntoView({ behavior: 'smooth' })
                 hideUpButton()
             }
-            else if (part == 0)
-            {
-                hideUpButton()
-            }
         }
         // Click down button
-        else if (i == 1)
+        else if (yButton == downButton)
         {
             // Scroll down
             if (part == 0)
@@ -555,8 +570,8 @@ for(let i = 0; i < yButtonArray.length; i++)
             {
                 section += 1
                 transformCube(cube, .5, section)
-                fadeOutAll()
-                fadeIn(section)
+                fadeOutAllSections()
+                fadeInSection(section)
                 animateHeading(section)
                 sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
             }
@@ -567,16 +582,169 @@ for(let i = 0; i < yButtonArray.length; i++)
                 footer.scrollIntoView({ behavior: 'smooth' })
                 hideDownButton()
             }
-            else if (part == 2)
-            {
-                hideDownButton()
-            }
         }
 
         // Everytime
         transformCanvas(section)
     })
 }
+
+let touchstartValue
+let touchendValue
+
+window.addEventListener('touchstart', (e) =>
+{
+    touchstartValue = e.changedTouches[0].clientY
+})
+
+window.addEventListener('touchend', (e) =>
+{
+    touchendValue = e.changedTouches[0].clientY
+
+    // Touch, into bottom
+    if (touchendValue > touchstartValue)
+    {
+        showAllYButtons()
+
+        // Scroll up
+        if (part == 2)
+        {
+            part -= 1
+            fadeOut(footer)
+            fadeOut(main)
+            fadeOut(sectionContainer)
+            fadeOutAllSections()
+            setTimeout(() =>
+            {
+                window.scrollBy(0, - window.innerHeight)
+                fadeIn(footer)
+                fadeIn(main)
+                setTimeout(() =>
+                {
+                    fadeIn(sectionContainer)
+                    fadeInSection(section)
+                    animateHeading(section)
+                }, 500)
+            }, 500)
+        }
+        // Scroll up
+        else if (part == 1 && section != 0)
+        {
+            section -= 1
+            fadeOut(sectionContainer)
+            fadeOutAllSections()
+            deformCube(cube, .5)
+            setTimeout(() => {
+                sectionContainer.scrollBy(0, - window.innerHeight)
+                addTextureToCube(textureArray[section], cube)
+                reformCube(cube, .5, planePositionArray)
+                setTimeout(() =>
+                {
+                    fadeIn(sectionContainer)
+                    fadeInSection(section)
+                    animateHeading(section)
+                }, 500)
+            }, 500)
+        }
+        // Scroll up
+        else if (part == 1 && section == 0)
+        {
+            part -= 1
+            fadeOut(main)
+            fadeOut(sectionContainer)
+            fadeOut(header)
+            setTimeout(() =>
+            {
+                window.scrollBy(0, - window.innerHeight)
+                fadeIn(main)
+                fadeIn(sectionContainer)
+                setTimeout(() =>
+                {
+                    fadeIn(header)
+                }, 500)
+            }, 500)
+            hideUpButton()
+        }
+        else if (part == 0)
+        {
+            hideUpButton()
+        }
+
+        transformCanvas(section)
+    }
+    // Touch, into top
+    else if (touchstartValue > touchendValue)
+    {
+        showAllYButtons()
+
+        // Scroll down
+        if (part == 0)
+        {
+            part += 1
+            fadeOut(header)
+            fadeOut(main)
+            fadeOut(sectionContainer)
+            fadeOutAllSections()
+            setTimeout(() =>
+            {
+                window.scrollBy(0, window.innerHeight)
+                fadeIn(header)
+                fadeIn(main)
+                setTimeout(() =>
+                {
+                    fadeIn(sectionContainer)
+                    fadeInSection(section)
+                    animateHeading(section)
+                }, 500)
+            }, 500)
+        }
+        // Scroll down
+        else if (part == 1 && section != 2)
+        {
+            section += 1
+            fadeOut(sectionContainer)
+            fadeOutAllSections()
+            deformCube(cube, .5)
+            setTimeout(() =>
+            {
+                sectionContainer.scrollBy(0, window.innerHeight)
+                addTextureToCube(textureArray[section], cube)
+                reformCube(cube, .5, planePositionArray)
+                setTimeout(() =>
+                {
+                    fadeIn(sectionContainer)
+                    fadeInSection(section)
+                    animateHeading(section)
+                }, 500)
+            }, 500)
+        }
+        // Scroll down
+        else if (part == 1 && section == 2)
+        {
+            part += 1
+            fadeOut(main)
+            fadeOut(sectionContainer)
+            fadeOut(footer)
+            setTimeout(() =>
+            {
+                window.scrollBy(0, window.innerHeight)
+                fadeIn(main)
+                fadeIn(sectionContainer)
+                setTimeout(() =>
+                {
+                    fadeIn(footer)
+                }, 500)
+            }, 500)
+            hideDownButton()
+        }
+        else if (part == 2)
+        {
+            hideDownButton()
+        }
+
+        transformCanvas(section)
+    }
+})
 
 // Randomize binary code
 const codeBlock = document.querySelector('#code-block')
@@ -641,10 +809,10 @@ scene.add(cube)
 const planePositionArray = getPlanePositionOfCube(cube)
 
 // Scroll effects
-section = sectionContainer.scrollTop / window.innerHeight
+section = Math.round(sectionContainer.scrollTop / window.innerHeight)
 addTextureToCube(textureArray[section], cube)
-fadeOutAll()
-fadeIn(section)
+fadeOutAllSections()
+fadeInSection(section)
 animateHeading(section)
 transformCanvas(section)
 
@@ -669,8 +837,8 @@ window.addEventListener('wheel', (e) =>
         {
             section += 1
             transformCube(cube, .5, section)
-            fadeOutAll()
-            fadeIn(section)
+            fadeOutAllSections()
+            fadeInSection(section)
             animateHeading(section)
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
@@ -701,8 +869,8 @@ window.addEventListener('wheel', (e) =>
         {
             section -= 1
             transformCube(cube, .5, section)
-            fadeOutAll()
-            fadeIn(section)
+            fadeOutAllSections()
+            fadeInSection(section)
             animateHeading(section)
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
@@ -744,8 +912,8 @@ window.addEventListener('keyup', (e) =>
         {
             section += 1
             transformCube(cube, .5, section)
-            fadeOutAll()
-            fadeIn(section)
+            fadeOutAllSections()
+            fadeInSection(section)
             animateHeading(section)
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
@@ -778,8 +946,8 @@ window.addEventListener('keyup', (e) =>
         {
             section -= 1
             transformCube(cube, .5, section)
-            fadeOutAll()
-            fadeIn(section)
+            fadeOutAllSections()
+            fadeInSection(section)
             animateHeading(section)
             sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
         }
@@ -876,27 +1044,3 @@ const tick = () =>
 }
 
 tick()
-
-let touchstartValue
-let touchendValue
-
-window.addEventListener('touchstart', (e) =>
-{
-    touchstartValue = e.changedTouches[0].clientY
-})
-
-window.addEventListener('touchend', (e) =>
-{
-    touchendValue = e.changedTouches[0].clientY
-    
-    // Touch, into bottom
-    if (touchendValue > touchstartValue)
-    {
-        upButton.click()
-    }
-    // Touch, into top
-    else if (touchstartValue > touchendValue)
-    {
-        downButton.click()
-    }
-})
