@@ -469,7 +469,6 @@ const headingArray = document.querySelectorAll('h3')
 for(let i = 0; i < headingArray.length; i++)
 {
     const heading = headingArray[i]
-
     convertHeadingIntoPieces(heading)
 }
 
