@@ -23,6 +23,7 @@ let section
 
 // Contain three sections
 const sectionContainer = document.querySelector('#section-container')
+const sections = document.querySelectorAll('section')
 
 // Buttons to navigate the website along with the x axis
 const button_1_2 = document.getElementById('1-2-button')
@@ -359,7 +360,7 @@ const fadeOutAllSections = () =>
 {
     for(let i = 0; i < sectionContainer.childElementCount; i++)
     {
-        const section = sectionContainer.children[i]
+        const section = sections[i]
         section.classList.remove('opacity-100')
         section.classList.add('opacity-0')
     }
@@ -379,7 +380,7 @@ const fadeIn = (element) =>
 
 const fadeInSection = (index) =>
 {
-    const section = sectionContainer.children[index]
+    const section = sections[index]
     section.classList.remove('opacity-0')
     section.classList.add('opacity-100')
 }
@@ -475,29 +476,31 @@ for(let i = 0; i < headingArray.length; i++)
 // Optimize x-buttons
 for(let i = 0; i < xButtonArray.length; i++)
 {
-    xButtonArray[i].addEventListener('click', () =>
+    const xButton = xButtonArray[i]
+
+    xButton.addEventListener('click', () =>
     {
         // Scroll right
-        if (i == 0)
+        if (i == button_1_2)
         {
             part += 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll left
-        else if (i == 1)
+        else if (i == button_2_1)
         {
             part -= 1
             header.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
-        else if (i == 2)
+        else if (i == button_2_3)
         {
             part += 1
             footer.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
-        else if (i == 3)
+        else if (i == button_3_2)
         {
             part -= 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
@@ -544,7 +547,7 @@ for(let i = 0; i < yButtonArray.length; i++)
                 fadeOutAllSections()
                 fadeInSection(section)
                 animateHeading(section)
-                sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+                sections[section].scrollIntoView({ behavior: 'smooth' })
             }
             // Scroll up
             else if (part == 1 && section == 0)
@@ -572,7 +575,7 @@ for(let i = 0; i < yButtonArray.length; i++)
                 fadeOutAllSections()
                 fadeInSection(section)
                 animateHeading(section)
-                sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+                sections[section].scrollIntoView({ behavior: 'smooth' })
             }
             // Scroll down
             else if (part == 1 && section == 2)
@@ -839,7 +842,7 @@ window.addEventListener('wheel', (e) =>
             fadeOutAllSections()
             fadeInSection(section)
             animateHeading(section)
-            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            sections[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
         else if (part == 1 && section == 2)
@@ -871,7 +874,7 @@ window.addEventListener('wheel', (e) =>
             fadeOutAllSections()
             fadeInSection(section)
             animateHeading(section)
-            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            sections[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
         else if (part == 1 && section == 0)
@@ -914,7 +917,7 @@ window.addEventListener('keyup', (e) =>
             fadeOutAllSections()
             fadeInSection(section)
             animateHeading(section)
-            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            sections[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
         else if (part == 1 && section == 2)
@@ -948,7 +951,7 @@ window.addEventListener('keyup', (e) =>
             fadeOutAllSections()
             fadeInSection(section)
             animateHeading(section)
-            sectionContainer.children[section].scrollIntoView({ behavior: 'smooth' })
+            sections[section].scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
         else if (part == 1 && section == 0)
