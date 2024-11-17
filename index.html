@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Portfolio Website of Sina Hosseini">
   <title>Sina Hosseini - Portfolio</title>
-  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/output.css">
 </head>
 <body class="overflow-hidden text-gray-400 lg:flex lg:w-c font-c">
   <button class="fixed top-0 z-30 block w-full bg-black border-b-2 lg:hidden md:h-c-43 h-c-50 border-c-gray-5 transition-c" id="up-button">
@@ -74,7 +74,34 @@
               JavaScript <span class="whitespace-nowrap">-></span> { Svelte <span class="whitespace-nowrap">-></span> { SvelteKit }, React <span class="whitespace-nowrap">-></span> { Next.js }, Three.js <span class="whitespace-nowrap">-></span> { React Three Fiber, Threlte }, lil-gui, GSAP, jQuery }
             </p>
           </div>
+          <button class="text-white whitespace-nowrap xl:text-c-12 lg:text-c-23 md:text-c-30 text-c-36 xl:leading-c-9 lg:leading-c-20 md:leading-c-26 leading-c-32 xl:tracking-c lg:tracking-c-19 md:tracking-c-26 tracking-c-32 xl:[word-spacing:.125vw] lg:[word-spacing:.08rem] md:[word-spacing:.076rem] [word-spacing:.0741rem] xl:p-c-4 lg:p-c-30 md:p-c-46 p-c-56 border border-white rounded-md transition-colors duration-300 hover:bg-white hover:text-black w-full" id="open-website-button">
+            Websites I Developed
+          </button>
         </article>
+        <div>
+          <div class="fixed resize inset-c-11 z-c-4 bg-black invisible opacity-0 transition-opacity duration-100" id="website-container">
+            <iframe class="w-full h-full" src="" frameborder="0"></iframe>
+          </div>
+          <a target="_blank" href="" class="fixed inset-x-0 bg-white flex justify-center items-center text-black h-c-11 -top-c-11 duration-100 transition-c z-40 border-b border-black" id="website-link">
+            <!-- link -->
+          </a>
+          <button class="fixed bg-white flex justify-center items-center text-black -top-c-11 -right-c-11 w-c-11 h-c-11 duration-100 transition-c-4 z-c border-b border-l border-black" id="close-website-button">
+            x
+          </button>
+          <button class="fixed -right-c-11 duration-100 transition-c-5 bg-white text-black w-c-11 flex justify-center items-center inset-y-0 z-50 border-l border-black" id="next-website-button">
+            <span class="-rotate-90 whitespace-nowrap">
+              Check Out the Next Website
+            </span>
+          </button>
+          <p class="fixed inset-x-0 bg-white flex justify-center items-center text-black h-c-11 -bottom-c-11 duration-100 transition-c-2 z-c-2 border-t border-black" id="website-description">
+            <!-- description -->
+          </p>
+          <button class="fixed bg-white text-black w-c-11 flex justify-center items-center -left-c-11 duration-100 transition-c-6 inset-y-0 z-c-3 border-r border-black" id="previous-website-button">
+            <span class="-rotate-90 whitespace-nowrap">
+              Go Back to the Previous Website
+            </span>
+          </button>
+        </div>
       </section>
       <section class="transition-opacity duration-500 ease-in-out delay-500 opacity-0">
         <article class="flex flex-col justify-center h-screen md:w-1/2 md:mr-auto xl:px-c-12 lg:px-c-32 md:px-c-49 px-c-55 xl:gap-c-4 lg:gap-c-30 md:gap-c-46 gap-c-56">
@@ -191,5 +218,5 @@
   <button class="fixed bottom-0 z-30 block w-full bg-black border-t-2 lg:hidden md:h-c-43 h-c-50 border-c-gray-5 transition-c-2" id="down-button">
     <svg class="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 h-1/2 fill-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" color="" viewBox="2.75 5.25 18.5 13.75"><path fill-rule="evenodd" d="M12 19a.75.75 0 01-.53-.22l-3.25-3.25a.75.75 0 111.06-1.06L12 17.19l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25A.75.75 0 0112 19z"></path><path fill-rule="evenodd" d="M12 18a.75.75 0 01-.75-.75v-7.5a.75.75 0 011.5 0v7.5A.75.75 0 0112 18zM10.75 6a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1a.75.75 0 01-.75-.75zm-8 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1A.75.75 0 012.75 6zm12 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1a.75.75 0 01-.75-.75zm-8 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1A.75.75 0 016.75 6zm12 0a.75.75 0 01.75-.75h1a.75.75 0 010 1.5h-1a.75.75 0 01-.75-.75z"></path></svg>
   </button>
-  <script type="module" src="./js/app.min.js"></script>
+  <script type="module" src="./js/app.js"></script>
 </html>

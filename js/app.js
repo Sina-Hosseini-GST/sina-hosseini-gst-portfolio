@@ -52,8 +52,40 @@ const footer = document.querySelector('footer')
 // main element, containing canvas and the three sections
 const main = document.querySelector('main')
 
-// Website button
-// const websiteModalButton = document.querySelector('#website-modal-button')
+// Website stuff
+const websiteContainer = document.querySelector('#website-container')
+const openWebsiteButton = document.querySelector('#open-website-button')
+const closeWebsiteButton = document.querySelector('#close-website-button')
+const nextWebsiteButton = document.querySelector('#next-website-button')
+const previousWebsiteButton = document.querySelector('#previous-website-button')
+const iframe = document.querySelector('iframe')
+const websiteLink = document.querySelector('#website-link')
+const websiteDescription = document.querySelector('#website-description')
+
+let websiteIndex = 0
+
+const websites = [
+    {
+        link: 'https://www.fablesofnaranj.com/',
+        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS -> {Svelte -> SvelteKit}'
+    },
+    {
+        link: 'https://www.fablesoftoranj.com/',
+        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS -> {Svelte -> SvelteKit}'
+    },
+    {
+        link: 'https://fatherhoodgame.com/',
+        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS, PHP, WordPress -> {Pods, Panda Pods Repeater Field}'
+    },
+    {
+        link: 'https://persisplay.com/',
+        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS, PHP, WordPress -> {Pods, Panda Pods Repeater Field}'
+    },
+    {
+        link: 'https://persia-pack.surge.sh/',
+        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS'
+    },
+]
 
 // Determine if cube rotates
 let rotationState = true
@@ -479,6 +511,13 @@ const configureLockedClass = () =>
     }, 1000)
 }
 
+const configureWebsite = () => {
+    iframe.setAttribute('src', websites[websiteIndex].link)
+    websiteLink.setAttribute('href', websites[websiteIndex].link)
+    websiteLink.textContent = websites[websiteIndex].link
+    websiteDescription.textContent = websites[websiteIndex].description
+}
+
 // Update screen sized elements' height
 updateScreenSizedElementsHeight()
 
@@ -490,6 +529,73 @@ for(let i = 0; i < headingArray.length; i++)
     const heading = headingArray[i]
     convertHeadingIntoPieces(heading)
 }
+
+// Open website modal
+openWebsiteButton.addEventListener('click', () =>
+{
+    const websiteDuration = 100
+
+    websiteContainer.classList.remove('invisible', 'opacity-0')
+    websiteContainer.classList.add('opacity-100')
+
+    setTimeout(() =>
+    {
+        websiteLink.classList.remove('-top-c-11')
+        websiteLink.classList.add('top-0')
+    
+        setTimeout(() =>
+        {
+            websiteLink.classList.remove('-top-c-11')
+            websiteLink.classList.add('top-0')
+    
+            setTimeout(() =>
+            {
+                closeWebsiteButton.classList.remove('-top-c-11', '-right-c-11')
+                closeWebsiteButton.classList.add('top-0', 'right-0')
+    
+                setTimeout(() =>
+                {
+                    nextWebsiteButton.classList.remove('-right-c-11')
+                    nextWebsiteButton.classList.add('right-0')
+    
+                    setTimeout(() =>
+                    {
+                        websiteDescription.classList.remove('-bottom-c-11')
+                        websiteDescription.classList.add('bottom-0')
+    
+                        setTimeout(() =>
+                        {
+                            previousWebsiteButton.classList.remove('-left-c-11')
+                            previousWebsiteButton.classList.add('left-0')
+    
+                            configureWebsite()
+                        }, websiteDuration)
+                    }, websiteDuration)
+                }, websiteDuration)
+            }, websiteDuration)
+        }, websiteDuration)
+    }, websiteDuration)
+})
+
+nextWebsiteButton.addEventListener('click', () =>
+{
+    websiteIndex++
+    if (websiteIndex == websites.length)
+    {
+        websiteIndex = 0
+    }
+    configureWebsite()
+})
+
+previousWebsiteButton.addEventListener('click', () =>
+{
+    websiteIndex--
+    if (websiteIndex == - 1)
+    {
+        websiteIndex = websites.length - 1
+    }
+    configureWebsite()
+})
 
 // Optimize x-buttons
 for(let i = 0; i < xButtonArray.length; i++)

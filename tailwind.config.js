@@ -220,7 +220,17 @@ module.exports = {
       },
       transitionProperty: {
         'c': 'top',
-        'c-2': 'bottom'
+        'c-2': 'bottom',
+        'c-3': 'height',
+        'c-4': 'top, right',
+        'c-5': 'right',
+        'c-6': 'left',
+      },
+      zIndex: {
+        'c': '60',
+        'c-2': '70',
+        'c-3': '80',
+        'c-4': '90',
       }
     }
   }
