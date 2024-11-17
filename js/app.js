@@ -52,7 +52,10 @@ const footer = document.querySelector('footer')
 // main element, containing canvas and the three sections
 const main = document.querySelector('main')
 
-// Determines if cube rotates
+// Website button
+// const websiteModalButton = document.querySelector('#website-modal-button')
+
+// Determine if cube rotates
 let rotationState = true
 
 const scene = new THREE.Scene()
@@ -442,7 +445,7 @@ const animateHeading = (section) =>
     }
 
     // Add styles
-    const heading = document.querySelector(`section:nth-child(${section + 1}) > h3`)
+    const heading = document.querySelector(`section:nth-child(${section + 1}) > article > h3`)
 
     for(let i = 0; i < heading.childElementCount; i++)
     {
