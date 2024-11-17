@@ -468,7 +468,7 @@ const updateScreenSizedElementsHeight = () =>
 }
 
 const configureLockedClass = () =>
-{        
+{
     body.classList.add(lockedClass)
 
     setTimeout(() => {
@@ -496,26 +496,26 @@ for(let i = 0; i < xButtonArray.length; i++)
     xButton.addEventListener('click', () =>
     {
         // Scroll right
-        if (i == button_1_2)
+        if (xButton == button_1_2)
         {
             part += 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
             animateHeading(section)
         }
         // Scroll left
-        else if (i == button_2_1)
+        else if (xButton == button_2_1)
         {
             part -= 1
             header.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll right
-        else if (i == button_2_3)
+        else if (xButton == button_2_3)
         {
             part += 1
             footer.scrollIntoView({ behavior: 'smooth' })
         }
         // Scroll left
-        else if (i == button_3_2)
+        else if (xButton == button_3_2)
         {
             part -= 1
             sectionContainer.scrollIntoView({ behavior: 'smooth' })
@@ -613,10 +613,12 @@ for(let i = 0; i < yButtonArray.length; i++)
 
 let touchstartValue
 let touchendValue
+let touchTarget
 
 window.addEventListener('touchstart', (e) =>
 {
     touchstartValue = e.changedTouches[0].clientY
+    touchTarget = e.target
 })
 
 window.addEventListener('touchend', (e) =>
@@ -766,6 +768,70 @@ window.addEventListener('touchend', (e) =>
                 hideDownButton()
             }
     
+            transformCanvas(section)
+        }
+        else if (touchstartValue == touchendValue)
+        {
+            showAllYButtons()
+    
+            // Click up button
+            if (touchTarget == upButton)
+            {
+                // Scroll up
+                if (part == 2)
+                {
+                    part -= 1
+                    sectionContainer.scrollIntoView({ behavior: 'smooth' })
+                    animateHeading(section)
+                }
+                // Scroll up
+                else if (part == 1 && section != 0)
+                {
+                    section -= 1
+                    transformCube(cube, .5, section)
+                    fadeOutAllSections()
+                    fadeInSection(section)
+                    animateHeading(section)
+                    sections[section].scrollIntoView({ behavior: 'smooth' })
+                }
+                // Scroll up
+                else if (part == 1 && section == 0)
+                {
+                    part -= 1
+                    header.scrollIntoView({ behavior: 'smooth' })
+                    hideUpButton()
+                }
+            }
+            // Click down button
+            else if (touchTarget == downButton)
+            {
+                // Scroll down
+                if (part == 0)
+                {
+                    part += 1
+                    sectionContainer.scrollIntoView({ behavior: 'smooth' })
+                    animateHeading(section)
+                }
+                // Scroll down
+                else if (part == 1 && section != 2)
+                {
+                    section += 1
+                    transformCube(cube, .5, section)
+                    fadeOutAllSections()
+                    fadeInSection(section)
+                    animateHeading(section)
+                    sections[section].scrollIntoView({ behavior: 'smooth' })
+                }
+                // Scroll down
+                else if (part == 1 && section == 2)
+                {
+                    part += 1
+                    footer.scrollIntoView({ behavior: 'smooth' })
+                    hideDownButton()
+                }
+            }
+    
+            // Everytime
             transformCanvas(section)
         }
 
