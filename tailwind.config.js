@@ -67,6 +67,16 @@ module.exports = {
         'c-56': '.5928rem',
         'c-57': '1.3338rem',
         'c-58': '1.6302rem',
+        'c-59': '1.998rem',
+        'c-60': '1.975rem',
+        'c-61': '6.66vw',
+        'c-62': '5.328rem',
+        'c-63': '3.996rem',
+        'c-64': '3.95rem',
+        'c-65': '1.66vw',
+        'c-66': '1.332rem',
+        'c-67': '.999rem',
+        'c-68': '.9875rem'
       },
       fontFamily: {
         'c': ['roboto', 'sans-serif']
@@ -143,7 +153,11 @@ module.exports = {
         'c-30': '3.5568rem',
         'c-31': '1.6302rem',
         'c-32': '1.06704rem',
-        'c-33': '1.46718rem'
+        'c-33': '1.46718rem',
+        'c-34': '3.33vw',
+        'c-35': '2.664rem',
+        'c-36': '1.998rem',
+        'c-37': '1.975rem',
       },
       backgroundImage: {
         'c': "url('../assets/img/sina-hosseini.png')"
@@ -225,12 +239,11 @@ module.exports = {
         'c-4': 'top, right',
         'c-5': 'right',
         'c-6': 'left',
+        'c-7': 'opacity, inset',
       },
       zIndex: {
         'c': '60',
         'c-2': '70',
-        'c-3': '80',
-        'c-4': '90',
       }
     }
   }

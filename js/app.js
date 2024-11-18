@@ -53,37 +53,36 @@ const footer = document.querySelector('footer')
 const main = document.querySelector('main')
 
 // Website stuff
+const websiteList = document.querySelector('#website-list')
 const websiteContainer = document.querySelector('#website-container')
 const openWebsiteButton = document.querySelector('#open-website-button')
 const closeWebsiteButton = document.querySelector('#close-website-button')
 const nextWebsiteButton = document.querySelector('#next-website-button')
 const previousWebsiteButton = document.querySelector('#previous-website-button')
+const maximizeWebsiteButton = document.querySelector('#maximize-website-button')
 const iframe = document.querySelector('iframe')
 const websiteLink = document.querySelector('#website-link')
 const websiteDescription = document.querySelector('#website-description')
+const websiteDuration = 500 / 2
+let isWebsiteMaximized = false
 
 let websiteIndex = 0
-
 const websites = [
     {
         link: 'https://www.fablesofnaranj.com/',
-        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS -> {Svelte -> SvelteKit}'
+        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Embla }'
     },
     {
         link: 'https://www.fablesoftoranj.com/',
-        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS -> {Svelte -> SvelteKit}'
+        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit } }'
     },
     {
         link: 'https://fatherhoodgame.com/',
-        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS, PHP, WordPress -> {Pods, Panda Pods Repeater Field}'
+        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
     },
     {
         link: 'https://persisplay.com/',
-        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS, PHP, WordPress -> {Pods, Panda Pods Repeater Field}'
-    },
-    {
-        link: 'https://persia-pack.surge.sh/',
-        description: 'Technologies used => HTML, CSS -> {Tailwind CSS}, JS'
+        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
     },
 ]
 
@@ -506,16 +505,31 @@ const configureLockedClass = () =>
 {
     body.classList.add(lockedClass)
 
-    setTimeout(() => {
+    setTimeout(() =>
+    {
         body.classList.remove(lockedClass)
     }, 1000)
 }
 
-const configureWebsite = () => {
+const configureWebsite = () =>
+{
     iframe.setAttribute('src', websites[websiteIndex].link)
     websiteLink.setAttribute('href', websites[websiteIndex].link)
     websiteLink.textContent = websites[websiteIndex].link
     websiteDescription.textContent = websites[websiteIndex].description
+    fixWebsiteContainerBottom()
+}
+
+const fixWebsiteContainerBottom = () =>
+{
+    if (!isWebsiteMaximized)
+    {
+        websiteContainer.style.bottom = `${websiteDescription.getBoundingClientRect().height}px`
+    }
+    else
+    {
+        websiteContainer.style.bottom = 0
+    }
 }
 
 // Update screen sized elements' height
@@ -533,48 +547,157 @@ for(let i = 0; i < headingArray.length; i++)
 // Open website modal
 openWebsiteButton.addEventListener('click', () =>
 {
-    const websiteDuration = 100
+    configureWebsite()
 
-    websiteContainer.classList.remove('invisible', 'opacity-0')
-    websiteContainer.classList.add('opacity-100')
+    main.classList.remove('z-20')
+    main.classList.add('z-40')
+
+    websiteList.classList.remove('invisible', 'opacity-0')
+    websiteList.classList.add('opacity-100')
+
+    websiteLink.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+    websiteLink.classList.add('top-0')
 
     setTimeout(() =>
     {
-        websiteLink.classList.remove('-top-c-11')
-        websiteLink.classList.add('top-0')
-    
+        maximizeWebsiteButton.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'right-0')
+        maximizeWebsiteButton.classList.add('top-0', 'xl:right-c-7', 'lg:right-c-27', 'md:right-c-59', 'right-c-60')
+
         setTimeout(() =>
         {
-            websiteLink.classList.remove('-top-c-11')
-            websiteLink.classList.add('top-0')
-    
+            closeWebsiteButton.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+            closeWebsiteButton.classList.add('top-0', 'right-0')
+        
             setTimeout(() =>
             {
-                closeWebsiteButton.classList.remove('-top-c-11', '-right-c-11')
-                closeWebsiteButton.classList.add('top-0', 'right-0')
-    
+                nextWebsiteButton.classList.remove('xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+                nextWebsiteButton.classList.add('right-0')
+        
                 setTimeout(() =>
                 {
-                    nextWebsiteButton.classList.remove('-right-c-11')
-                    nextWebsiteButton.classList.add('right-0')
+                    websiteDescription.classList.remove('-bottom-full')
+                    websiteDescription.classList.add('bottom-0')
     
                     setTimeout(() =>
                     {
-                        websiteDescription.classList.remove('-bottom-c-11')
-                        websiteDescription.classList.add('bottom-0')
+                        previousWebsiteButton.classList.remove('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
+                        previousWebsiteButton.classList.add('left-0')
     
                         setTimeout(() =>
                         {
-                            previousWebsiteButton.classList.remove('-left-c-11')
-                            previousWebsiteButton.classList.add('left-0')
-    
-                            configureWebsite()
+                            websiteContainer.classList.remove('invisible', 'opacity-0')
+                            websiteContainer.classList.add('opacity-100')
+
+                            fixWebsiteContainerBottom()
                         }, websiteDuration)
                     }, websiteDuration)
                 }, websiteDuration)
             }, websiteDuration)
         }, websiteDuration)
     }, websiteDuration)
+})
+
+closeWebsiteButton.addEventListener('click', () =>
+{
+})
+
+maximizeWebsiteButton.addEventListener('click', () =>
+{
+    if (!websiteList.classList.contains(lockedClass))
+    {
+        isWebsiteMaximized = !isWebsiteMaximized
+
+        if (isWebsiteMaximized)
+        {
+            previousWebsiteButton.classList.remove('left-0')
+            previousWebsiteButton.classList.add('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
+        
+            setTimeout(() =>
+            {
+                websiteDescription.classList.remove('bottom-0')
+                websiteDescription.classList.add('-bottom-full')
+        
+                setTimeout(() =>
+                {
+                    nextWebsiteButton.classList.remove('right-0')
+                    nextWebsiteButton.classList.add('xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+    
+                    setTimeout(() =>
+                    {
+                        closeWebsiteButton.classList.remove('top-0', 'right-0')
+                        closeWebsiteButton.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+    
+                        setTimeout(() =>
+                        {
+                            websiteLink.classList.remove('top-0')
+                            websiteLink.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+    
+                            setTimeout(() =>
+                            {
+                                maximizeWebsiteButton.classList.remove('top-0', 'xl:right-c-7', 'lg:right-c-27', 'md:right-c-59', 'right-c-60')
+                                maximizeWebsiteButton.classList.add('top-0', 'right-0')
+    
+                                websiteContainer.classList.remove('xl:inset-c-7', 'lg:inset-c-27', 'md:inset-c-59', 'inset-c-60')
+                                websiteContainer.classList.add('inset-0')
+
+                                fixWebsiteContainerBottom()
+                            }, websiteDuration)
+                        }, websiteDuration)
+                    }, websiteDuration)
+                }, websiteDuration)
+            }, websiteDuration)
+        }
+        else
+        {
+            websiteContainer.classList.remove('inset-0')
+            websiteContainer.classList.add('xl:inset-c-7', 'lg:inset-c-27', 'md:inset-c-59', 'inset-c-60')
+
+            fixWebsiteContainerBottom()
+    
+            setTimeout(() =>
+            {
+                websiteLink.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+                websiteLink.classList.add('top-0')
+        
+                setTimeout(() =>
+                {
+                    maximizeWebsiteButton.classList.remove('top-0', 'right-0')
+                    maximizeWebsiteButton.classList.add('top-0', 'xl:right-c-7', 'lg:right-c-27', 'md:right-c-59', 'right-c-60')
+            
+                    setTimeout(() =>
+                    {
+                        closeWebsiteButton.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+                        closeWebsiteButton.classList.add('top-0', 'right-0')
+                    
+                        setTimeout(() =>
+                        {
+                            nextWebsiteButton.classList.remove('xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+                            nextWebsiteButton.classList.add('right-0')
+                    
+                            setTimeout(() =>
+                            {
+                                websiteDescription.classList.remove('-bottom-full')
+                                websiteDescription.classList.add('bottom-0')
+                
+                                setTimeout(() =>
+                                {
+                                    previousWebsiteButton.classList.remove('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
+                                    previousWebsiteButton.classList.add('left-0')
+                                }, websiteDuration)
+                            }, websiteDuration)
+                        }, websiteDuration)
+                    }, websiteDuration)
+                }, websiteDuration)
+            }, websiteDuration)
+        }
+
+        websiteList.classList.add(lockedClass)
+
+        setTimeout(() =>
+        {
+            websiteList.classList.remove(lockedClass)
+        }, websiteDuration * 6)
+    }
 })
 
 nextWebsiteButton.addEventListener('click', () =>
@@ -769,7 +892,8 @@ window.addEventListener('touchend', (e) =>
                 fadeOut(sectionContainer)
                 fadeOutAllSections()
                 deformCube(cube, .5)
-                setTimeout(() => {
+                setTimeout(() =>
+                {
                     sectionContainer.scrollBy(0, - window.innerHeight)
                     addTextureToCube(textureArray[section], cube)
                     reformCube(cube, .5, planePositionArray)
@@ -1182,6 +1306,8 @@ window.addEventListener('keyup', (e) =>
 
 window.addEventListener('resize', () =>
 {
+    fixWebsiteContainerBottom()
+    
     // Update sizes
     sizes.width = window.innerWidth * 1.5
     sizes.height = window.innerHeight
