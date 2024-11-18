@@ -579,8 +579,8 @@ video {
   bottom: -4rem;
 }
 
-.-bottom-c-60 {
-  bottom: -1.975rem;
+.-bottom-full {
+  bottom: -100%;
 }
 
 .-left-c-58 {
@@ -637,10 +637,6 @@ video {
 
 .top-c-53 {
   top: calc(25% + .741rem);
-}
-
-.-bottom-full {
-  bottom: -100%;
 }
 
 .z-10 {
@@ -856,6 +852,10 @@ video {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.rounded {
+  border-radius: 0.25rem;
 }
 
 .rounded-full {
@@ -1103,6 +1103,11 @@ video {
   letter-spacing: .03705rem;
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .text-c-gray-10 {
   --tw-text-opacity: 1;
   color: rgb(21 21 21 / var(--tw-text-opacity));
@@ -1271,10 +1276,6 @@ video {
 @media (min-width: 768px) {
   .md\:inset-c-59 {
     inset: 1.998rem;
-  }
-
-  .md\:-bottom-c-59 {
-    bottom: -1.998rem;
   }
 
   .md\:-left-c-48 {
@@ -1510,10 +1511,6 @@ video {
 
   .lg\:inset-c-27 {
     inset: 2.664rem;
-  }
-
-  .lg\:-bottom-c-27 {
-    bottom: -2.664rem;
   }
 
   .lg\:-left-c-27 {
@@ -1845,10 +1842,6 @@ video {
 @media (min-width: 1280px) {
   .xl\:inset-c-7 {
     inset: 3.33vw;
-  }
-
-  .xl\:-bottom-c-7 {
-    bottom: -3.33vw;
   }
 
   .xl\:-left-c-18 {

@@ -62,7 +62,7 @@ const previousWebsiteButton = document.querySelector('#previous-website-button')
 const maximizeWebsiteButton = document.querySelector('#maximize-website-button')
 const iframe = document.querySelector('iframe')
 const websiteLink = document.querySelector('#website-link')
-const websiteDescription = document.querySelector('#website-description')
+const websiteTechnologiesAndDescription = document.querySelector('#website-technologies-description')
 const websiteDuration = 500 / 2
 let isWebsiteMaximized = false
 
@@ -70,20 +70,25 @@ let websiteIndex = 0
 const websites = [
     {
         link: 'https://www.fablesofnaranj.com/',
-        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Embla }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Three.js -> { GSAP }, Embla }',
+        description: `Don'n miss the <span class="font-bold">Who I am</span> page with its parallax scrolling effect!`
     },
     {
         link: 'https://www.fablesoftoranj.com/',
-        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit } }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit } }'
     },
     {
         link: 'https://fatherhoodgame.com/',
-        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
     },
     {
         link: 'https://persisplay.com/',
-        description: 'Technologies used => HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
     },
+    {
+        link: 'https://persia-pack.surge.sh/',
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS'
+    }
 ]
 
 // Determine if cube rotates
@@ -515,8 +520,8 @@ const configureWebsite = () =>
 {
     iframe.setAttribute('src', websites[websiteIndex].link)
     websiteLink.setAttribute('href', websites[websiteIndex].link)
-    websiteLink.textContent = websites[websiteIndex].link
-    websiteDescription.textContent = websites[websiteIndex].description
+    websiteLink.textContent = `You're Visiting => ${websites[websiteIndex].link}`
+    websiteTechnologiesAndDescription.textContent = `Technologies Used => ${websites[websiteIndex].technologies}`
     fixWebsiteContainerBottom()
 }
 
@@ -524,7 +529,7 @@ const fixWebsiteContainerBottom = () =>
 {
     if (!isWebsiteMaximized)
     {
-        websiteContainer.style.bottom = `${websiteDescription.getBoundingClientRect().height}px`
+        websiteContainer.style.bottom = `${websiteTechnologiesAndDescription.getBoundingClientRect().height}px`
     }
     else
     {
@@ -575,8 +580,8 @@ openWebsiteButton.addEventListener('click', () =>
         
                 setTimeout(() =>
                 {
-                    websiteDescription.classList.remove('-bottom-full')
-                    websiteDescription.classList.add('bottom-0')
+                    websiteTechnologiesAndDescription.classList.remove('-bottom-full')
+                    websiteTechnologiesAndDescription.classList.add('bottom-0')
     
                     setTimeout(() =>
                     {
@@ -585,7 +590,7 @@ openWebsiteButton.addEventListener('click', () =>
     
                         setTimeout(() =>
                         {
-                            websiteContainer.classList.remove('invisible', 'opacity-0')
+                            websiteContainer.classList.remove('opacity-0')
                             websiteContainer.classList.add('opacity-100')
 
                             fixWebsiteContainerBottom()
@@ -614,8 +619,8 @@ maximizeWebsiteButton.addEventListener('click', () =>
         
             setTimeout(() =>
             {
-                websiteDescription.classList.remove('bottom-0')
-                websiteDescription.classList.add('-bottom-full')
+                websiteTechnologiesAndDescription.classList.remove('bottom-0')
+                websiteTechnologiesAndDescription.classList.add('-bottom-full')
         
                 setTimeout(() =>
                 {
@@ -676,8 +681,8 @@ maximizeWebsiteButton.addEventListener('click', () =>
                     
                             setTimeout(() =>
                             {
-                                websiteDescription.classList.remove('-bottom-full')
-                                websiteDescription.classList.add('bottom-0')
+                                websiteTechnologiesAndDescription.classList.remove('-bottom-full')
+                                websiteTechnologiesAndDescription.classList.add('bottom-0')
                 
                                 setTimeout(() =>
                                 {
