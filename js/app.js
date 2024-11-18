@@ -53,7 +53,7 @@ const footer = document.querySelector('footer')
 const main = document.querySelector('main')
 
 // Website stuff
-const websiteList = document.querySelector('#website-list')
+const websiteInformation = document.querySelector('#website-information')
 const websiteContainer = document.querySelector('#website-container')
 const openWebsiteButton = document.querySelector('#open-website-button')
 const closeWebsiteButton = document.querySelector('#close-website-button')
@@ -63,7 +63,7 @@ const maximizeWebsiteButton = document.querySelector('#maximize-website-button')
 const iframe = document.querySelector('iframe')
 const websiteLink = document.querySelector('#website-link')
 const websiteTechnologiesAndDescription = document.querySelector('#website-technologies-description')
-const websiteDuration = 500 / 2
+const websiteDuration = 300 / 2
 let isWebsiteMaximized = false
 
 let websiteIndex = 0
@@ -520,7 +520,7 @@ const configureWebsite = () =>
 {
     iframe.setAttribute('src', websites[websiteIndex].link)
     websiteLink.setAttribute('href', websites[websiteIndex].link)
-    websiteLink.textContent = `You're Visiting => ${websites[websiteIndex].link}`
+    websiteLink.innerHTML = `You're Visiting <span class="group-hover:bg-white group-hover:text-black transition-colors duration-300">${websites[websiteIndex].link}</span>`
     websiteTechnologiesAndDescription.textContent = `Technologies Used => ${websites[websiteIndex].technologies}`
     fixWebsiteContainerBottom()
 }
@@ -557,8 +557,8 @@ openWebsiteButton.addEventListener('click', () =>
     main.classList.remove('z-20')
     main.classList.add('z-40')
 
-    websiteList.classList.remove('invisible', 'opacity-0')
-    websiteList.classList.add('opacity-100')
+    websiteInformation.classList.remove('invisible', 'opacity-0')
+    websiteInformation.classList.add('opacity-100')
 
     websiteLink.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
     websiteLink.classList.add('top-0')
@@ -588,13 +588,7 @@ openWebsiteButton.addEventListener('click', () =>
                         previousWebsiteButton.classList.remove('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
                         previousWebsiteButton.classList.add('left-0')
     
-                        setTimeout(() =>
-                        {
-                            websiteContainer.classList.remove('opacity-0')
-                            websiteContainer.classList.add('opacity-100')
-
-                            fixWebsiteContainerBottom()
-                        }, websiteDuration)
+                        fixWebsiteContainerBottom()
                     }, websiteDuration)
                 }, websiteDuration)
             }, websiteDuration)
@@ -604,11 +598,57 @@ openWebsiteButton.addEventListener('click', () =>
 
 closeWebsiteButton.addEventListener('click', () =>
 {
+    setTimeout(() =>
+    {
+        previousWebsiteButton.classList.remove('left-0')
+        previousWebsiteButton.classList.add('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
+
+        setTimeout(() =>
+        {
+            websiteTechnologiesAndDescription.classList.remove('bottom-0')
+            websiteTechnologiesAndDescription.classList.add('-bottom-full')
+    
+            setTimeout(() =>
+            {
+                nextWebsiteButton.classList.remove('right-0')
+                nextWebsiteButton.classList.add('xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+
+                setTimeout(() =>
+                {
+                    closeWebsiteButton.classList.remove('top-0', 'right-0')
+                    closeWebsiteButton.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'xl:-right-c-7', 'lg:-right-c-27', 'md:-right-c-59', '-right-c-60')
+
+                    setTimeout(() =>
+                    {
+                        maximizeWebsiteButton.classList.remove('top-0', 'xl:right-c-7', 'lg:right-c-27', 'md:right-c-59', 'right-c-60')
+                        maximizeWebsiteButton.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60', 'right-0')
+
+                        setTimeout(() =>
+                        {
+                            websiteLink.classList.remove('top-0')
+                            websiteLink.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+
+                            websiteInformation.classList.remove('opacity-100')
+                            websiteInformation.classList.add('opacity-0')
+
+                            setTimeout(() =>
+                            {
+                                websiteInformation.classList.add('invisible')
+                            }, websiteDuration * 2)
+
+                            main.classList.remove('z-40')
+                            main.classList.add('z-20')
+                        }, websiteDuration)
+                    }, websiteDuration)
+                }, websiteDuration)
+            }, websiteDuration)
+        }, websiteDuration)
+    }, websiteDuration)
 })
 
 maximizeWebsiteButton.addEventListener('click', () =>
 {
-    if (!websiteList.classList.contains(lockedClass))
+    if (!websiteInformation.classList.contains(lockedClass))
     {
         isWebsiteMaximized = !isWebsiteMaximized
 
@@ -696,11 +736,11 @@ maximizeWebsiteButton.addEventListener('click', () =>
             }, websiteDuration)
         }
 
-        websiteList.classList.add(lockedClass)
+        websiteInformation.classList.add(lockedClass)
 
         setTimeout(() =>
         {
-            websiteList.classList.remove(lockedClass)
+            websiteInformation.classList.remove(lockedClass)
         }, websiteDuration * 6)
     }
 })

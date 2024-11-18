@@ -239,7 +239,7 @@ module.exports = {
         'c-4': 'top, right',
         'c-5': 'right',
         'c-6': 'left',
-        'c-7': 'opacity, inset',
+        'c-7': 'inset',
       },
       zIndex: {
         'c': '60',
