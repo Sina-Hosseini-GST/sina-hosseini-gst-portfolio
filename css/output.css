@@ -561,10 +561,6 @@ video {
   inset: 0px;
 }
 
-.inset-c-60 {
-  inset: 1.975rem;
-}
-
 .inset-x-0 {
   left: 0px;
   right: 0px;
@@ -987,6 +983,10 @@ video {
   padding: .5928rem;
 }
 
+.p-c-60 {
+  padding: 1.975rem;
+}
+
 .px-c-55 {
   padding-left: 2.223rem;
   padding-right: 2.223rem;
@@ -1144,6 +1144,12 @@ video {
   transition-duration: 150ms;
 }
 
+.transition-c-8 {
+  transition-property: opacity, padding;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1252,10 +1258,6 @@ video {
 }
 
 @media (min-width: 768px) {
-  .md\:inset-c-59 {
-    inset: 1.998rem;
-  }
-
   .md\:-left-c-48 {
     left: -1.672rem;
   }
@@ -1360,6 +1362,10 @@ video {
 
   .md\:p-c-46 {
     padding: .608rem;
+  }
+
+  .md\:p-c-59 {
+    padding: 1.998rem;
   }
 
   .md\:px-c-49 {
@@ -1476,10 +1482,6 @@ video {
 @media (min-width: 1024px) {
   .lg\:static {
     position: static;
-  }
-
-  .lg\:inset-c-27 {
-    inset: 2.664rem;
   }
 
   .lg\:-left-c-27 {
@@ -1668,6 +1670,10 @@ video {
     --tw-bg-opacity: 1;
   }
 
+  .lg\:p-c-27 {
+    padding: 2.664rem;
+  }
+
   .lg\:p-c-28 {
     padding: 5.12rem;
   }
@@ -1800,10 +1806,6 @@ video {
 }
 
 @media (min-width: 1280px) {
-  .xl\:inset-c-7 {
-    inset: 3.33vw;
-  }
-
   .xl\:-left-c-18 {
     left: -2.75vw;
   }
@@ -1910,6 +1912,10 @@ video {
 
   .xl\:p-c-4 {
     padding: 2vw;
+  }
+
+  .xl\:p-c-7 {
+    padding: 3.33vw;
   }
 
   .xl\:px-c-12 {

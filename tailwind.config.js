@@ -240,6 +240,7 @@ module.exports = {
         'c-5': 'right',
         'c-6': 'left',
         'c-7': 'inset',
+        'c-8': 'opacity, padding',
       },
       zIndex: {
         'c': '60',
