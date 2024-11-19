@@ -81,7 +81,8 @@ const websites = [
     },
     {
         link: 'https://fatherhoodgame.com/',
-        technologies: 'HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }',
+        description: `I developed this website and the next one for the team <a target="_blank" href="https://persisplay.com/" class="font-bold underline xl:underline-offset-c">Persis Play</a>, as a community manager and part of the game <a target="_blank" href="https://store.steampowered.com/app/2180850/Fatherhood/" class="font-bold underline xl:underline-offset-c">Fatherhood</a>.`
     },
     {
         link: 'https://persisplay.com/',
