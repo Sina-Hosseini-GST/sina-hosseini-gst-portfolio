@@ -62,6 +62,8 @@ const previousWebsiteButton = document.querySelector('#previous-website-button')
 const maximizeWebsiteButton = document.querySelector('#maximize-website-button')
 const iframe = document.querySelector('iframe')
 const websiteLink = document.querySelector('#website-link')
+const websiteTechnologies = document.querySelector('#website-technologies')
+const websiteDescription = document.querySelector('#website-description')
 const websiteTechnologiesAndDescription = document.querySelector('#website-technologies-description')
 const websiteDuration = 300 / 2
 let isWebsiteMaximized = false
@@ -71,7 +73,7 @@ const websites = [
     {
         link: 'https://www.fablesofnaranj.com/',
         technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Three.js -> { GSAP }, Embla }',
-        description: `Don'n miss the <span class="font-bold">Who I am</span> page with its parallax scrolling effect!`
+        description: `Don't miss the <a target="_blank" href="https://www.fablesofnaranj.com/who-i-am" class="font-bold underline xl:underline-offset-c">Who I Am</a> page and its parallax scrolling effect! Demo available on <a target="_blank" href="https://svelte.dev/playground/a6514198f0fe459f891efb781ce00216?version=5.2.3" class="font-bold underline xl:underline-offset-c">Svelte Playground</a>.`
     },
     {
         link: 'https://www.fablesoftoranj.com/',
@@ -87,7 +89,8 @@ const websites = [
     },
     {
         link: 'https://persia-pack.surge.sh/',
-        technologies: 'HTML, CSS -> { Tailwind CSS }, JS'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS',
+        description: `It's a tool for video game modifications, developed to simplify the translation process! Full info available on <a target="_blank" href="https://romhackplaza.org/utilities/persia-pack-utility/" class="font-bold underline xl:underline-offset-c">RomHack Plaza</a>.`
     }
 ]
 
@@ -518,10 +521,16 @@ const configureLockedClass = () =>
 
 const configureWebsite = () =>
 {
+    websiteDescription.classList.add('hidden')
     iframe.setAttribute('src', websites[websiteIndex].link)
     websiteLink.setAttribute('href', websites[websiteIndex].link)
     websiteLink.innerHTML = `You're Visiting <span class="whitespace-pre">${websites[websiteIndex].link}</span>`
-    websiteTechnologiesAndDescription.textContent = `Technologies Used => ${websites[websiteIndex].technologies}`
+    websiteTechnologies.textContent = `Technologies Used => ${websites[websiteIndex].technologies}`
+    if (websites[websiteIndex].description)
+    {
+        websiteDescription.classList.remove('hidden')
+        websiteDescription.innerHTML = websites[websiteIndex].description
+    }
     fixWebsiteContainerPadding()
 }
 
@@ -530,7 +539,7 @@ const fixWebsiteContainerPadding = () =>
     if (!isWebsiteMaximized)
     {
         websiteContainer.removeAttribute('style')
-        websiteContainer.style.paddingBottom = `${websiteTechnologiesAndDescription.getBoundingClientRect().height}px`
+        websiteContainer.style.paddingBottom = `${websiteTechnologies.getBoundingClientRect().height}px`
     }
     else
     {
