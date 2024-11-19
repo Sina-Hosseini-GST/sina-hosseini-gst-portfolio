@@ -781,6 +781,8 @@ nextWebsiteButton.addEventListener('click', () =>
 
     fadeOut(websiteTechnologiesAndDescription)
 
+    iframe.setAttribute('src', '')
+
     setTimeout(() =>
     {
         configureWebsite()
@@ -812,6 +814,8 @@ previousWebsiteButton.addEventListener('click', () =>
     fadeOut(websiteLink)
 
     fadeOut(websiteTechnologiesAndDescription)
+
+    iframe.setAttribute('src', '')
 
     setTimeout(() =>
     {
@@ -1111,6 +1115,7 @@ window.addEventListener('touchend', (e) =>
     
             transformCanvas(section)
         }
+        // Tap y buttons
         else if (touchstartValue == touchendValue)
         {
             showAllYButtons()
