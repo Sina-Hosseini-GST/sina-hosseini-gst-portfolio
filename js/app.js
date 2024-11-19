@@ -66,6 +66,7 @@ const websiteTechnologies = document.querySelector('#website-technologies')
 const websiteDescription = document.querySelector('#website-description')
 const websiteTechnologiesAndDescription = document.querySelector('#website-technologies-description')
 const websiteDuration = 300 / 2
+let isWebsiteOpened = false
 let isWebsiteMaximized = false
 
 let websiteIndex = 0
@@ -73,7 +74,7 @@ const websites = [
     {
         link: 'https://www.fablesofnaranj.com/',
         technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Three.js -> { GSAP }, Embla }',
-        description: `Don't miss the <a target="_blank" href="https://www.fablesofnaranj.com/who-i-am" class="font-bold underline xl:underline-offset-c">Who I Am</a> page and its parallax scrolling effect! Demo available on <a target="_blank" href="https://svelte.dev/playground/a6514198f0fe459f891efb781ce00216?version=5.2.3" class="font-bold underline xl:underline-offset-c">Svelte Playground</a>.`
+        description: `Don't miss the <a target="_blank" href="https://www.fablesofnaranj.com/who-i-am" class="font-bold underline xl:underline-offset-c">Who I Am</a> page of this website and its parallax scrolling effect! Demo available on <a target="_blank" href="https://svelte.dev/playground/a6514198f0fe459f891efb781ce00216?version=5.2.3" class="font-bold underline xl:underline-offset-c">Svelte Playground</a>.`
     },
     {
         link: 'https://www.fablesoftoranj.com/',
@@ -532,10 +533,10 @@ const configureWebsite = () =>
         websiteDescription.classList.remove('hidden')
         websiteDescription.innerHTML = websites[websiteIndex].description
     }
-    fixWebsiteContainerPadding()
+    setWebsiteContainerPadding()
 }
 
-const fixWebsiteContainerPadding = () =>
+const setWebsiteContainerPadding = () =>
 {
     if (!isWebsiteMaximized)
     {
@@ -546,6 +547,16 @@ const fixWebsiteContainerPadding = () =>
     {
         websiteContainer.style.padding = 0
     }
+}
+
+const setWebsiteLinkTop = () =>
+{
+    websiteLink.style.top = `-${websiteLink.getBoundingClientRect().height}px`
+}
+
+const setWebsiteTechnologiesAndDescriptionBottom = () =>
+{
+    websiteTechnologiesAndDescription.style.bottom = `-${websiteTechnologiesAndDescription.getBoundingClientRect().height}px`
 }
 
 // Update screen sized elements' height
@@ -563,7 +574,13 @@ for(let i = 0; i < headingArray.length; i++)
 // Open website modal
 openWebsiteButton.addEventListener('click', () =>
 {
+    isWebsiteOpened = true
+
     configureWebsite()
+
+    setWebsiteLinkTop()
+    
+    setWebsiteTechnologiesAndDescriptionBottom()
 
     main.classList.remove('z-20')
     main.classList.add('z-40')
@@ -573,8 +590,7 @@ openWebsiteButton.addEventListener('click', () =>
 
     setTimeout(() =>
     {
-        websiteLink.classList.remove('-top-full')
-        websiteLink.classList.add('top-0')
+        websiteLink.style.top = 0
 
         setTimeout(() =>
         {
@@ -593,15 +609,14 @@ openWebsiteButton.addEventListener('click', () =>
             
                     setTimeout(() =>
                     {
-                        websiteTechnologiesAndDescription.classList.remove('-bottom-full')
-                        websiteTechnologiesAndDescription.classList.add('bottom-0')
+                        websiteTechnologiesAndDescription.style.bottom = 0
         
                         setTimeout(() =>
                         {
                             previousWebsiteButton.classList.remove('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
                             previousWebsiteButton.classList.add('left-0')
         
-                            fixWebsiteContainerPadding()
+                            setWebsiteContainerPadding()
                         }, websiteDuration)
                     }, websiteDuration)
                 }, websiteDuration)
@@ -617,8 +632,7 @@ closeWebsiteButton.addEventListener('click', () =>
 
     setTimeout(() =>
     {
-        websiteTechnologiesAndDescription.classList.remove('bottom-0')
-        websiteTechnologiesAndDescription.classList.add('-bottom-full')
+        setWebsiteTechnologiesAndDescriptionBottom()
 
         setTimeout(() =>
         {
@@ -637,8 +651,7 @@ closeWebsiteButton.addEventListener('click', () =>
 
                     setTimeout(() =>
                     {
-                        websiteLink.classList.remove('top-0')
-                        websiteLink.classList.add('-top-full')
+                        setWebsiteLinkTop()
 
                         setTimeout(() =>
                         {
@@ -651,6 +664,8 @@ closeWebsiteButton.addEventListener('click', () =>
         
                                 main.classList.remove('z-40')
                                 main.classList.add('z-20')
+
+                                isWebsiteOpened = false
                             }, websiteDuration)
                         }, websiteDuration)
                     }, websiteDuration)
@@ -673,8 +688,7 @@ maximizeWebsiteButton.addEventListener('click', () =>
         
             setTimeout(() =>
             {
-                websiteTechnologiesAndDescription.classList.remove('bottom-0')
-                websiteTechnologiesAndDescription.classList.add('-bottom-full')
+                setWebsiteTechnologiesAndDescriptionBottom()
         
                 setTimeout(() =>
                 {
@@ -688,15 +702,14 @@ maximizeWebsiteButton.addEventListener('click', () =>
     
                         setTimeout(() =>
                         {
-                            websiteLink.classList.remove('top-0')
-                            websiteLink.classList.add('-top-full')
+                            setWebsiteLinkTop()
     
                             setTimeout(() =>
                             {
                                 maximizeWebsiteButton.classList.remove('top-0', 'xl:right-c-7', 'lg:right-c-27', 'md:right-c-59', 'right-c-60')
                                 maximizeWebsiteButton.classList.add('top-0', 'right-0')
 
-                                fixWebsiteContainerPadding()
+                                setWebsiteContainerPadding()
                             }, websiteDuration)
                         }, websiteDuration)
                     }, websiteDuration)
@@ -705,12 +718,11 @@ maximizeWebsiteButton.addEventListener('click', () =>
         }
         else
         {
-            fixWebsiteContainerPadding()
+            setWebsiteContainerPadding()
     
             setTimeout(() =>
             {
-                websiteLink.classList.remove('-top-full')
-                websiteLink.classList.add('top-0')
+                websiteLink.style.top = 0
         
                 setTimeout(() =>
                 {
@@ -729,8 +741,7 @@ maximizeWebsiteButton.addEventListener('click', () =>
                     
                             setTimeout(() =>
                             {
-                                websiteTechnologiesAndDescription.classList.remove('-bottom-full')
-                                websiteTechnologiesAndDescription.classList.add('bottom-0')
+                                websiteTechnologiesAndDescription.style.bottom = 0
                 
                                 setTimeout(() =>
                                 {
@@ -756,20 +767,24 @@ maximizeWebsiteButton.addEventListener('click', () =>
 nextWebsiteButton.addEventListener('click', () =>
 {
     websiteIndex++
+
     if (websiteIndex == websites.length)
     {
         websiteIndex = 0
     }
+    
     configureWebsite()
 })
 
 previousWebsiteButton.addEventListener('click', () =>
 {
     websiteIndex--
+
     if (websiteIndex == - 1)
     {
         websiteIndex = websites.length - 1
     }
+    
     configureWebsite()
 })
 
@@ -1371,7 +1386,14 @@ window.addEventListener('keyup', (e) =>
 
 window.addEventListener('resize', () =>
 {
-    fixWebsiteContainerPadding()
+    setWebsiteContainerPadding()
+
+    if (!isWebsiteOpened)
+    {
+        setWebsiteLinkTop()
+    
+        setWebsiteTechnologiesAndDescriptionBottom()
+    }
     
     // Update sizes
     sizes.width = window.innerWidth * 1.5

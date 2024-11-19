@@ -743,11 +743,6 @@ video {
   width: 1.975rem;
 }
 
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .w-full {
   width: 100%;
 }
@@ -1107,6 +1102,11 @@ video {
   letter-spacing: .03705rem;
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .text-c-gray-10 {
   --tw-text-opacity: 1;
   color: rgb(21 21 21 / var(--tw-text-opacity));
@@ -1124,10 +1124,6 @@ video {
 
 .underline {
   text-decoration-line: underline;
-}
-
-.decoration-2 {
-  text-decoration-thickness: 2px;
 }
 
 .opacity-0 {
