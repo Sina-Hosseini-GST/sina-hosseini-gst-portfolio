@@ -772,8 +772,28 @@ nextWebsiteButton.addEventListener('click', () =>
     {
         websiteIndex = 0
     }
+
+    setWebsiteLinkTop()
     
-    configureWebsite()
+    setWebsiteTechnologiesAndDescriptionBottom()
+
+    fadeOut(websiteLink)
+
+    fadeOut(websiteTechnologiesAndDescription)
+
+    setTimeout(() =>
+    {
+        configureWebsite()
+
+        websiteLink.style.top = 0
+
+        websiteTechnologiesAndDescription.style.bottom = 0
+
+        fadeIn(websiteLink)
+    
+        fadeIn(websiteTechnologiesAndDescription)
+        
+    }, websiteDuration * 2)
 })
 
 previousWebsiteButton.addEventListener('click', () =>
@@ -784,8 +804,28 @@ previousWebsiteButton.addEventListener('click', () =>
     {
         websiteIndex = websites.length - 1
     }
+
+    setWebsiteLinkTop()
     
-    configureWebsite()
+    setWebsiteTechnologiesAndDescriptionBottom()
+
+    fadeOut(websiteLink)
+
+    fadeOut(websiteTechnologiesAndDescription)
+
+    setTimeout(() =>
+    {
+        configureWebsite()
+
+        websiteLink.style.top = 0
+
+        websiteTechnologiesAndDescription.style.bottom = 0
+
+        fadeIn(websiteLink)
+    
+        fadeIn(websiteTechnologiesAndDescription)
+        
+    }, websiteDuration * 2)
 })
 
 // Optimize x-buttons
