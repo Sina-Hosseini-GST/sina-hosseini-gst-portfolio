@@ -520,7 +520,7 @@ const configureWebsite = () =>
 {
     iframe.setAttribute('src', websites[websiteIndex].link)
     websiteLink.setAttribute('href', websites[websiteIndex].link)
-    websiteLink.innerHTML = `You're Visiting <span class="group-hover:bg-white group-hover:text-black transition-colors duration-300">${websites[websiteIndex].link}</span>`
+    websiteLink.innerHTML = `You're Visiting <span class="whitespace-pre">${websites[websiteIndex].link}</span>`
     websiteTechnologiesAndDescription.textContent = `Technologies Used => ${websites[websiteIndex].technologies}`
     fixWebsiteContainerPadding()
 }
@@ -553,6 +553,8 @@ for(let i = 0; i < headingArray.length; i++)
 // Open website modal
 openWebsiteButton.addEventListener('click', () =>
 {
+    configureWebsite()
+
     main.classList.remove('z-20')
     main.classList.add('z-40')
 
@@ -561,7 +563,7 @@ openWebsiteButton.addEventListener('click', () =>
 
     setTimeout(() =>
     {
-        websiteLink.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+        websiteLink.classList.remove('-top-full')
         websiteLink.classList.add('top-0')
 
         setTimeout(() =>
@@ -588,8 +590,6 @@ openWebsiteButton.addEventListener('click', () =>
                         {
                             previousWebsiteButton.classList.remove('xl:-left-c-7', 'lg:-left-c-27', 'md:-left-c-59', '-left-c-60')
                             previousWebsiteButton.classList.add('left-0')
-
-                            configureWebsite()
         
                             fixWebsiteContainerPadding()
                         }, websiteDuration)
@@ -628,7 +628,7 @@ closeWebsiteButton.addEventListener('click', () =>
                     setTimeout(() =>
                     {
                         websiteLink.classList.remove('top-0')
-                        websiteLink.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+                        websiteLink.classList.add('-top-full')
 
                         setTimeout(() =>
                         {
@@ -679,7 +679,7 @@ maximizeWebsiteButton.addEventListener('click', () =>
                         setTimeout(() =>
                         {
                             websiteLink.classList.remove('top-0')
-                            websiteLink.classList.add('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+                            websiteLink.classList.add('-top-full')
     
                             setTimeout(() =>
                             {
@@ -699,7 +699,7 @@ maximizeWebsiteButton.addEventListener('click', () =>
     
             setTimeout(() =>
             {
-                websiteLink.classList.remove('xl:-top-c-7', 'lg:-top-c-27', 'md:-top-c-59', '-top-c-60')
+                websiteLink.classList.remove('-top-full')
                 websiteLink.classList.add('top-0')
         
                 setTimeout(() =>
