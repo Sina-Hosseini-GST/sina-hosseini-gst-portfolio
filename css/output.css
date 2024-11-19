@@ -1192,6 +1192,10 @@ video {
   text-orientation: upright;
 }
 
+.\[text_shadow\:0_0_10px_white\] {
+  text_shadow: 0 0 10px white;
+}
+
 .\[word-spacing\:\.03705rem\] {
   word-spacing: .03705rem;
 }
@@ -1210,6 +1214,10 @@ video {
 
 .\[writing-mode\:vertical-lr\] {
   writing-mode: vertical-lr;
+}
+
+.\[text-shadow\:0_0_10px_white\] {
+  text-shadow: 0 0 10px white;
 }
 
 .hover\:bg-white:hover {

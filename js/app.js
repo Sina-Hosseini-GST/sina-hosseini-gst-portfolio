@@ -75,7 +75,7 @@ const websites = [
     },
     {
         link: 'https://www.fablesoftoranj.com/',
-        technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit } }'
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Embla }'
     },
     {
         link: 'https://fatherhoodgame.com/',
@@ -639,8 +639,8 @@ closeWebsiteButton.addEventListener('click', () =>
                             {
                                 websiteContainer.classList.add('invisible')
         
-                                main.classList.add('z-40')
-                                main.classList.remove('z-20')
+                                main.classList.remove('z-40')
+                                main.classList.add('z-20')
                             }, websiteDuration)
                         }, websiteDuration)
                     }, websiteDuration)
@@ -1267,10 +1267,10 @@ window.addEventListener('wheel', (e) =>
 
 window.addEventListener('keyup', (e) =>
 {
+    const key = e.key
+
     if (!body.classList.contains(lockedClass))
     {
-        const key = e.key
-    
         // Press down
         if (key == 'ArrowDown' || key == 'PageDown')
         {
@@ -1344,6 +1344,18 @@ window.addEventListener('keyup', (e) =>
         transformCanvas(section)
 
         configureLockedClass()
+    }
+
+    if (key == 'Escape')
+    {
+        if (!isWebsiteMaximized)
+        {
+            closeWebsiteButton.click()
+        }
+        else
+        {
+            maximizeWebsiteButton.click()
+        }
     }
 })
 
