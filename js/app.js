@@ -967,7 +967,7 @@ window.addEventListener('touchstart', (e) =>
 
 window.addEventListener('touchend', (e) =>
 {
-    if (!body.classList.contains(lockedClass))
+    if (!body.classList.contains(lockedClass) && !isWebsiteOpened)
     {
         touchendValue = e.changedTouches[0].clientY
     
