@@ -90,6 +90,11 @@ const websites = [
         technologies: 'HTML, CSS -> { Tailwind CSS }, JS, PHP, WordPress -> { Pods, Panda Pods Repeater Field }'
     },
     {
+        link: 'https://re-docs.github.io/',
+        technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Embla }',
+        description: `REdocs is a personal project of mine, dedicated to translating documents from my favorite video games.`
+    },
+    {
         link: 'https://persia-pack.surge.sh/',
         technologies: 'HTML, CSS -> { Tailwind CSS }, JS',
         description: `It's a tool for video game modifications, developed to simplify the translation process! Full info available on <a target="_blank" href="https://romhackplaza.org/utilities/persia-pack-utility/" class="font-bold underline xl:underline-offset-c">RomHack Plaza</a>.`
@@ -120,9 +125,9 @@ const textureArrayOne = [
 
 const textureArrayTwo = [
     // Top face
-    textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
+    textureLoader.load('/assets/img/gaming/persis-play.png'),
     // Bottom face
-    textureLoader.load('/assets/img/gaming/bootleg-games-wiki.png'),
+    textureLoader.load('/assets/img/gaming/persis-play.png'),
     // Front face
     textureLoader.load('/assets/img/gaming/forever-classic-games.png'),
     // Back face
