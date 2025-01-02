@@ -955,6 +955,20 @@ video {
   background-image: url('../assets/img/sina-hosseini.png');
 }
 
+.bg-gradient-to-l {
+  background-image: linear-gradient(to left, var(--tw-gradient-stops));
+}
+
+.from-black {
+  --tw-gradient-from: #000 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-transparent {
+  --tw-gradient-to: transparent var(--tw-gradient-to-position);
+}
+
 .bg-cover {
   background-size: cover;
 }
@@ -1111,6 +1125,10 @@ video {
 
 .underline {
   text-decoration-line: underline;
+}
+
+.underline-offset-c {
+  text-underline-offset: 3px;
 }
 
 .opacity-0 {
