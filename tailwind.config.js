@@ -76,7 +76,9 @@ module.exports = {
         'c-65': '1.66vw',
         'c-66': '1.332rem',
         'c-67': '.999rem',
-        'c-68': '.9875rem'
+        'c-68': '.9875rem',
+        'c-69': 'calc(2.964rem - 2px)',
+        'c-70': 'calc(3.04rem - 2px)',
       },
       fontFamily: {
         'c': ['roboto', 'sans-serif']
