@@ -79,6 +79,7 @@ module.exports = {
         'c-68': '.9875rem',
         'c-69': 'calc(2.964rem - 2px)',
         'c-70': 'calc(3.04rem - 2px)',
+        'c-71': '22.5rem',
       },
       fontFamily: {
         'c': ['roboto', 'sans-serif']
@@ -248,7 +249,10 @@ module.exports = {
       zIndex: {
         'c': '60',
         'c-2': '70',
-      }
+      },
+      backgroundOpacity: {
+       'c': '.85',
+      },
     }
   }
 }

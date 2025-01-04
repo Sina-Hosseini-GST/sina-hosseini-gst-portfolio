@@ -1181,6 +1181,14 @@ window.addEventListener('touchend', (e) =>
                     hideDownButton()
                 }
             }
+            else {
+                if (part == 0) {
+                    hideUpButton()
+                }
+                else if (part == 2) {
+                    hideDownButton()
+                }
+            }
     
             // Everytime
             transformCanvas(section)
