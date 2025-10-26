@@ -93,11 +93,11 @@ const websites = [
         technologies: 'HTML, CSS -> { Tailwind CSS }, JS -> { Svelte -> { SvelteKit }, Embla }',
         description: `REdocs is a personal project of mine, dedicated to translating documents from my favorite video games.`
     },
-    {
-        link: 'https://persia-pack.surge.sh/',
-        technologies: 'HTML, CSS -> { Tailwind CSS }, JS',
-        description: `It's a tool for video game modifications, developed to simplify the translation process! Full info available on <a target="_blank" href="https://romhackplaza.org/utilities/persia-pack-utility/" class="font-bold underline xl:underline-offset-c">RomHack Plaza</a>.`
-    }
+    // {
+    //     link: 'https://persia-pack.surge.sh/',
+    //     technologies: 'HTML, CSS -> { Tailwind CSS }, JS',
+    //     description: `It's a tool for video game modifications, developed to simplify the translation process! Full info available on <a target="_blank" href="https://romhackplaza.org/utilities/persia-pack-utility/" class="font-bold underline xl:underline-offset-c">RomHack Plaza</a>.`
+    // }
 ]
 
 // Determine if cube rotates
